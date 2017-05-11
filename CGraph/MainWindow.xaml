@@ -1,0 +1,111 @@
+﻿<Window x:Class="CGraph.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CGraph"
+        mc:Ignorable="d"
+        Title="Grafy na kole" Height="500" Width="500"
+        d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
+        x:Name="LayoutRoot">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <ToolBar ToolBarTray.IsLocked="True">
+                <ToolBar.Resources>
+                    <Style TargetType="Image">
+                        <Setter Property="Width" Value="16" />
+                        <Setter Property="Height" Value="16" />
+                    </Style>
+                </ToolBar.Resources>
+                <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki">
+                    <Image Source="Resources/1494463973_fit_to_width.png" />
+                </Button>
+                <Button Command="{Binding CreateComplementaryCommand}" ToolTip="Stwórz graf dopełniający">
+                    <Image Source="Resources/1494463973_fit_to_width.png" />
+                </Button>
+                <Button Command="{Binding ClearCommand}" ToolTip="Wyczyść">
+                    <Image Source="Resources/1494463973_fit_to_width.png" />
+                </Button>
+            </ToolBar>
+        </StackPanel>
+        <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform">
+            <ItemsControl>
+                <ItemsControl.Resources>
+                    <CollectionViewSource x:Key="EdgesViewSource" Source="{Binding Edges}" />
+                    <CollectionViewSource x:Key="VerticesViewSource" Source="{Binding Vertices}" />
+                    
+                    <ContextMenu x:Key="VertexContextMenu">
+                        <MenuItem Header="Usuń wierzchołek" Command="{Binding Path=DataContext.RemoveVertexCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
+                    </ContextMenu>
+                    <ContextMenu x:Key="EdgeContextMenu">
+                        <MenuItem Header="Usuń krawędź" Command="{Binding Path=DataContext.RemoveEdgeCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
+                    </ContextMenu>
+                    
+                    <DataTemplate DataType="{x:Type local:Vertex}">
+                        <Button Command="{Binding DataContext.SelectVertexCommand, ElementName=LayoutRoot}" CommandParameter="{Binding}">
+                            <Button.Template>
+                                <ControlTemplate>
+                                    <Ellipse Width="5"
+                                             Height="5"
+                                             ToolTip="{Binding Name}"
+                                             ContextMenu="{StaticResource VertexContextMenu}" 
+                                             Tag="{Binding ElementName=LayoutRoot}"
+                                             Cursor="Hand">
+                                        <Ellipse.Style>
+                                            <Style TargetType="Ellipse">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter Property="Fill" Value="#000000" />
+                                                        <Setter Property="Stroke" Value="#009000" />
+                                                        <Setter Property="StrokeThickness" Value="1" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                                                        <Setter Property="Fill" Value="#000000" />
+                                                        <Setter Property="Stroke" Value="Transparent" />
+                                                        <Setter Property="StrokeThickness" Value="1" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Ellipse.Style>
+                                    </Ellipse>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type local:Edge}">
+                        <Line Stroke="#AAAAAA"
+                              StrokeThickness="0.5" 
+                              X1="{Binding A.Position.X}"
+                              Y1="{Binding A.Position.Y}"
+                              X2="{Binding B.Position.X}"
+                              Y2="{Binding B.Position.Y}" 
+                              ToolTip="{Binding Name}"
+                              ContextMenu="{StaticResource EdgeContextMenu}" />
+                    </DataTemplate>
+                </ItemsControl.Resources>
+                <ItemsControl.ItemsSource>
+                    <CompositeCollection>
+                        <CollectionContainer Collection="{Binding Source={StaticResource VerticesViewSource}}" />
+                        <CollectionContainer Collection="{Binding Source={StaticResource EdgesViewSource}}" />
+                    </CompositeCollection>
+                </ItemsControl.ItemsSource>
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Canvas Width="250" Height="250" MouseDown="UIElement_OnMouseLeftButtonUp" Background="White" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Canvas.Left" Value="{Binding Center.X}" />
+                        <Setter Property="Canvas.Top" Value="{Binding Center.Y}" />
+                        <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </Viewbox>
+    </Grid>
+</Window>
