@@ -11,11 +11,29 @@ namespace CGraph
     [ImplementPropertyChanged]
     public class GraphViewModel
     {
+        private readonly Random _random = new Random();
+
         public ObservableCollection<Vertex> Vertices { get; } = new ObservableCollection<Vertex>();
         public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
 
+        #region Commands
+        
+        public ICommand DeselectCommand => new RelayCommand(() =>
+        {
+            foreach (var vertex in Vertices)
+            {
+                vertex.IsSelected = false;
+            }
+        });
+
         public ICommand SelectVertexCommand => new RelayCommand<Vertex>(vertex =>
         {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            {
+                vertex.IsSelected = true;
+                return;
+            }
+
             var previousVertex = Vertices.FirstOrDefault(x => x.IsSelected);
             if (previousVertex == vertex)
             {
@@ -40,7 +58,7 @@ namespace CGraph
         });
 
         // ReSharper disable once UnusedMember.Global
-        public ICommand RemoveVertexCommand => new RelayCommand<Vertex>(vertex =>
+        public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(vertex =>
         {
             if (!Vertices.Remove(vertex))
             {
@@ -58,9 +76,21 @@ namespace CGraph
         });
 
         // ReSharper disable once UnusedMember.Global
-        public ICommand RemoveEdgeCommand => new RelayCommand<Edge>(edge =>
+        public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(edge =>
         {
             Edges.Remove(edge);
+        });
+
+        public ICommand DeleteRandomVertexCommand => new RelayCommand(() =>
+        {
+            var randomVertex = Vertices
+                .OrderBy(x => Guid.NewGuid())
+                .FirstOrDefault();
+
+            if (randomVertex != null)
+            {
+                DeleteVertexCommand.Execute(randomVertex);
+            }
         });
 
         public ICommand SpreadVerticesCommand => new RelayCommand(() =>
@@ -101,6 +131,20 @@ namespace CGraph
             }
         });
 
+        public ICommand CreateRandomEdgesCommand => new RelayCommand(() =>
+        {
+            var numberOfEdges = _random.Next(0, Vertices.Count * (Vertices.Count - 1) / 2);
+            var allEdges = CreateClique()
+                .OrderBy(x => Guid.NewGuid())
+                .Take(numberOfEdges);
+
+            Edges.Clear();
+            foreach (var edge in allEdges)
+            {
+                Edges.Add(edge);
+            }
+        });
+
         public ICommand ClearCommand => new RelayCommand(() =>
         {
             var dialogResult = MessageBox.Show(
@@ -115,6 +159,20 @@ namespace CGraph
             Edges.Clear();
             Vertices.Clear();
         });
+
+        public ICommand DeleteCommand => new RelayCommand(() =>
+        {
+            var verticesToDelete = Vertices
+                .Where(x => x.IsSelected)
+                .ToArray();
+
+            foreach (var vertex in verticesToDelete)
+            {
+                DeleteVertexCommand.Execute(vertex);
+            }
+        });
+
+        #endregion
 
         private IEnumerable<Edge> CreateClique()
         {
@@ -132,18 +190,6 @@ namespace CGraph
             var angle = Math.Atan2(vec.Y, vec.X);
             return angle < 0 ? angle + 2.0 * Math.PI : angle;
         }
-        
-//        public void MakeVertices(int k)
-//        {
-//            Vertices.Clear();
-//            for (int i = 0; i < k; ++i)
-//            {
-//                Vertices.Add(new Vertex
-//                {
-//                    Name = $"Wierzcholek {i}"
-//                });
-//            }
-//        }
 
         public void MakeEdges()
         {

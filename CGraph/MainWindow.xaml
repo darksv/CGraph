@@ -8,17 +8,22 @@
         Title="Grafy na kole" Height="500" Width="500"
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
         x:Name="LayoutRoot">
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding DeselectCommand}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0">
+        <StackPanel Grid.Row="0">
             <ToolBar ToolBarTray.IsLocked="True">
                 <ToolBar.Resources>
                     <Style TargetType="Image">
-                        <Setter Property="Width" Value="16" />
-                        <Setter Property="Height" Value="16" />
+                        <Setter Property="Width" Value="24" />
+                        <Setter Property="Height" Value="24" />
                     </Style>
                 </ToolBar.Resources>
                 <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki">
@@ -30,19 +35,25 @@
                 <Button Command="{Binding ClearCommand}" ToolTip="Wyczyść">
                     <Image Source="Resources/1494463973_fit_to_width.png" />
                 </Button>
+                <Button Command="{Binding CreateRandomEdgesCommand}" ToolTip="Losuj graf">
+                    <Image Source="Resources/1494463973_fit_to_width.png" />
+                </Button>
+                <Button Command="{Binding DeleteRandomVertexCommand}" ToolTip="Usuń losowy wierchołek">
+                    <Image Source="Resources/1494463973_fit_to_width.png" />
+                </Button>
             </ToolBar>
         </StackPanel>
-        <Viewbox Grid.Row="1" Grid.Column="0" Stretch="Uniform">
+        <Viewbox Grid.Row="1" Stretch="Uniform">
             <ItemsControl>
                 <ItemsControl.Resources>
                     <CollectionViewSource x:Key="EdgesViewSource" Source="{Binding Edges}" />
                     <CollectionViewSource x:Key="VerticesViewSource" Source="{Binding Vertices}" />
                     
                     <ContextMenu x:Key="VertexContextMenu">
-                        <MenuItem Header="Usuń wierzchołek" Command="{Binding Path=DataContext.RemoveVertexCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
+                        <MenuItem Header="Usuń wierzchołek" Command="{Binding Path=DataContext.DeleteVertexCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
                     </ContextMenu>
                     <ContextMenu x:Key="EdgeContextMenu">
-                        <MenuItem Header="Usuń krawędź" Command="{Binding Path=DataContext.RemoveEdgeCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
+                        <MenuItem Header="Usuń krawędź" Command="{Binding Path=DataContext.DeleteEdgeCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
                     </ContextMenu>
                     
                     <DataTemplate DataType="{x:Type local:Vertex}">
@@ -107,5 +118,10 @@
                 </ItemsControl.ItemContainerStyle>
             </ItemsControl>
         </Viewbox>
+        <StatusBar Grid.Row="2">
+            <TextBlock Text="{Binding Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
+            <Separator />
+            <TextBlock Text="{Binding Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
+        </StatusBar>
     </Grid>
 </Window>
