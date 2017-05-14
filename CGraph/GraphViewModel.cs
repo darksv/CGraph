@@ -18,15 +18,30 @@ namespace CGraph
 
         #region Commands
         
-        public ICommand DeselectCommand => new RelayCommand(() =>
+        public ICommand DeselectCommand => new RelayCommand(Deselect);
+        public ICommand SelectVertexCommand => new RelayCommand<Vertex>(SelectVertex);
+        public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
+        public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
+        public ICommand DeleteRandomVertexCommand => new RelayCommand(DeleteRandomVertex);
+        public ICommand SpreadVerticesCommand => new RelayCommand(SpreadVertices);
+        public ICommand CreateComplementaryGraphCommand => new RelayCommand(CreateComplementaryGraph);
+        public ICommand CreateRandomEdgesCommand => new RelayCommand(
+            () => CreateRandomEdges(_random.Next(0, Vertices.Count * (Vertices.Count - 1) / 2)));
+        public ICommand DeleteGraphCommand => new RelayCommand(DeleteGraph);
+        public ICommand DeleteSelectedCommand => new RelayCommand(DeleteSelected);
+        public ICommand CreateGraphCommand => new RelayCommand(CreateGraph);
+
+        #endregion
+
+        private void Deselect()
         {
             foreach (var vertex in Vertices)
             {
                 vertex.IsSelected = false;
             }
-        });
+        }
 
-        public ICommand SelectVertexCommand => new RelayCommand<Vertex>(vertex =>
+        private void SelectVertex(Vertex vertex)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
@@ -48,58 +63,52 @@ namespace CGraph
 
             previousVertex.IsSelected = false;
 
-            if (Edges.Any(e => e.A == previousVertex && e.B == vertex ||
-                               e.B == previousVertex && e.A == vertex))
+            if (Edges.Any(e => e.A == previousVertex && e.B == vertex || e.B == previousVertex && e.A == vertex))
             {
                 return;
             }
 
             Edges.Add(new Edge(previousVertex, vertex));
-        });
+        }
 
-        // ReSharper disable once UnusedMember.Global
-        public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(vertex =>
+        private void DeleteVertex(Vertex vertex)
         {
             if (!Vertices.Remove(vertex))
             {
                 return;
             }
 
-            var incidentEdges = Edges
-                .Where(x => x.A == vertex || x.B == vertex)
+            var incidentEdges = Edges.Where(x => x.A == vertex || x.B == vertex)
                 .ToArray();
 
             foreach (var incidentEdge in incidentEdges)
             {
                 Edges.Remove(incidentEdge);
             }
-        });
+        }
 
-        // ReSharper disable once UnusedMember.Global
-        public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(edge =>
+        private void DeleteEdge(Edge edge)
         {
             Edges.Remove(edge);
-        });
+        }
 
-        public ICommand DeleteRandomVertexCommand => new RelayCommand(() =>
+        private void DeleteRandomVertex()
         {
-            var randomVertex = Vertices
-                .OrderBy(x => Guid.NewGuid())
+            var randomVertex = Vertices.OrderBy(x => Guid.NewGuid())
                 .FirstOrDefault();
 
             if (randomVertex != null)
             {
-                DeleteVertexCommand.Execute(randomVertex);
+                DeleteVertex(randomVertex);
             }
-        });
+        }
 
-        public ICommand SpreadVerticesCommand => new RelayCommand(() =>
+        private void SpreadVertices()
         {
             var n = Vertices.Count;
 
             var center = new Point(125, 125);
-            var sortedVertices = Vertices
-                .Select(vertex => new
+            var sortedVertices = Vertices.Select(vertex => new
                 {
                     Vertex = vertex,
                     Angle = CalculateAngle(vertex.Position - center)
@@ -116,9 +125,9 @@ namespace CGraph
                     Y = center.Y + 100 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 2.5
                 };
             }
-        });
+        }
 
-        public ICommand CreateComplementaryCommand => new RelayCommand(() =>
+        private void CreateComplementaryGraph()
         {
             var complementaryEdges = CreateClique()
                 .Except(Edges, new EdgeEqualityComparer())
@@ -129,11 +138,10 @@ namespace CGraph
             {
                 Edges.Add(edge);
             }
-        });
+        }
 
-        public ICommand CreateRandomEdgesCommand => new RelayCommand(() =>
+        private void CreateRandomEdges(int numberOfEdges)
         {
-            var numberOfEdges = _random.Next(0, Vertices.Count * (Vertices.Count - 1) / 2);
             var allEdges = CreateClique()
                 .OrderBy(x => Guid.NewGuid())
                 .Take(numberOfEdges);
@@ -143,14 +151,11 @@ namespace CGraph
             {
                 Edges.Add(edge);
             }
-        });
+        }
 
-        public ICommand ClearCommand => new RelayCommand(() =>
+        private void DeleteGraph()
         {
-            var dialogResult = MessageBox.Show(
-                "Graf zostanie usunięty. Czy chcesz kontynuować?",
-                "Potwierdzenie",
-                MessageBoxButton.YesNo);
+            var dialogResult = MessageBox.Show("Graf zostanie usunięty. Czy chcesz kontynuować?", "Potwierdzenie", MessageBoxButton.YesNo);
 
             if (dialogResult != MessageBoxResult.Yes)
             {
@@ -158,21 +163,35 @@ namespace CGraph
             }
             Edges.Clear();
             Vertices.Clear();
-        });
+        }
 
-        public ICommand DeleteCommand => new RelayCommand(() =>
+        private void DeleteSelected()
         {
-            var verticesToDelete = Vertices
-                .Where(x => x.IsSelected)
+            var verticesToDelete = Vertices.Where(x => x.IsSelected)
                 .ToArray();
 
             foreach (var vertex in verticesToDelete)
             {
-                DeleteVertexCommand.Execute(vertex);
+                DeleteVertex(vertex);
             }
-        });
+        }
 
-        #endregion
+        private void CreateGraph()
+        {
+            var dialog = new GraphCreatorWindow();
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            Vertices.Clear();
+            for (int i = 0; i < dialog.NumberOfVertices; ++i)
+            {
+                Vertices.Add(new Vertex());
+            }
+            CreateRandomEdges(dialog.NumberOfEdges);
+            SpreadVertices();
+        }
 
         private IEnumerable<Edge> CreateClique()
         {

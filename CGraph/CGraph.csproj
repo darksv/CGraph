@@ -78,12 +78,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GraphCreatorWindow.xaml.cs">
+      <DependentUpon>GraphCreatorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GraphCreatorViewModel.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="EdgeEqualityComparer.cs" />
     <Compile Include="EllipsePositionConverter.cs" />
     <Compile Include="HoverBehavior.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Vertex.cs" />
+    <Page Include="GraphCreatorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

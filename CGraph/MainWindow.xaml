@@ -7,10 +7,11 @@
         mc:Ignorable="d"
         Title="Grafy na kole" Height="500" Width="500"
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
-        x:Name="LayoutRoot">
+        x:Name="LayoutRoot"
+        WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding DeselectCommand}" />
-        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Key="Delete" Command="{Binding DeleteSelectedCommand}" />
     </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -26,13 +27,16 @@
                         <Setter Property="Height" Value="24" />
                     </Style>
                 </ToolBar.Resources>
+                <Button Command="{Binding CreateGraphCommand}" ToolTip="Nowy graf">
+                    <Image Source="Resources/1494463973_fit_to_width.png" />
+                </Button>
                 <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki">
                     <Image Source="Resources/1494463973_fit_to_width.png" />
                 </Button>
-                <Button Command="{Binding CreateComplementaryCommand}" ToolTip="Stwórz graf dopełniający">
+                <Button Command="{Binding CreateComplementaryGraphCommand}" ToolTip="Stwórz graf dopełniający">
                     <Image Source="Resources/1494463973_fit_to_width.png" />
                 </Button>
-                <Button Command="{Binding ClearCommand}" ToolTip="Wyczyść">
+                <Button Command="{Binding DeleteGraphCommand}" ToolTip="Wyczyść">
                     <Image Source="Resources/1494463973_fit_to_width.png" />
                 </Button>
                 <Button Command="{Binding CreateRandomEdgesCommand}" ToolTip="Losuj graf">
