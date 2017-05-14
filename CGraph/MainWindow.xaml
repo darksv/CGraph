@@ -5,9 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CGraph"
         mc:Ignorable="d"
-        Title="Grafy na kole" Height="500" Width="500"
+        Title="Graf" Width="500"
+        SizeToContent="Height"
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
         x:Name="LayoutRoot"
+        Icon="/Resources/1494807789_share.png"
         WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding DeselectCommand}" />
@@ -20,32 +22,35 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <ToolBar ToolBarTray.IsLocked="True">
-                <ToolBar.Resources>
-                    <Style TargetType="Image">
-                        <Setter Property="Width" Value="24" />
-                        <Setter Property="Height" Value="24" />
-                    </Style>
-                </ToolBar.Resources>
-                <Button Command="{Binding CreateGraphCommand}" ToolTip="Nowy graf">
-                    <Image Source="Resources/1494463973_fit_to_width.png" />
-                </Button>
-                <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki">
-                    <Image Source="Resources/1494463973_fit_to_width.png" />
-                </Button>
-                <Button Command="{Binding CreateComplementaryGraphCommand}" ToolTip="Stwórz graf dopełniający">
-                    <Image Source="Resources/1494463973_fit_to_width.png" />
-                </Button>
-                <Button Command="{Binding DeleteGraphCommand}" ToolTip="Wyczyść">
-                    <Image Source="Resources/1494463973_fit_to_width.png" />
-                </Button>
-                <Button Command="{Binding CreateRandomEdgesCommand}" ToolTip="Losuj graf">
-                    <Image Source="Resources/1494463973_fit_to_width.png" />
-                </Button>
-                <Button Command="{Binding DeleteRandomVertexCommand}" ToolTip="Usuń losowy wierchołek">
-                    <Image Source="Resources/1494463973_fit_to_width.png" />
-                </Button>
-            </ToolBar>
+            <ToolBarPanel Background="Transparent">
+                <ToolBar ToolBarTray.IsLocked="True" Background="Transparent">
+                    <ToolBar.Resources>
+                        <Style TargetType="Image">
+                            <Setter Property="Width" Value="20" />
+                            <Setter Property="Height" Value="20" />
+                            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
+                        </Style>
+                    </ToolBar.Resources>
+                    <Button Command="{Binding CreateGraphCommand}" ToolTip="Nowy graf">
+                        <Image Source="/Resources/font-awesome_4-7-0_share-alt_256_0_000000_none.png" />
+                    </Button>
+                    <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki na kręgu">
+                        <Image Source="/Resources/font-awesome_4-7-0_circle-thin_256_0_000000_none.png" />
+                    </Button>
+                    <Button Command="{Binding CreateComplementaryGraphCommand}" ToolTip="Stwórz graf dopełniający">
+                        <Image Source="/Resources/font-awesome_4-7-0_plus_256_0_000000_none.png" />
+                    </Button>
+                    <Button Command="{Binding DeleteGraphCommand}" ToolTip="Wyczyść">
+                        <Image Source="/Resources/font-awesome_4-7-0_trash_256_0_000000_none.png" />
+                    </Button>
+                    <Button Command="{Binding CreateRandomEdgesCommand}" ToolTip="Utwórz losowe krawędzie">
+                        <Image Source="/Resources/font-awesome_4-7-0_connectdevelop_256_0_000000_none.png" />
+                    </Button>
+                    <Button Command="{Binding DeleteRandomVertexCommand}" ToolTip="Usuń losowy wierchołek">
+                        <Image Source="/Resources/font-awesome_4-7-0_minus_256_0_000000_none.png" />
+                    </Button>
+                </ToolBar>
+            </ToolBarPanel>
         </StackPanel>
         <Viewbox Grid.Row="1" Stretch="Uniform">
             <ItemsControl>
