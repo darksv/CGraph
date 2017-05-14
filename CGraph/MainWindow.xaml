@@ -9,7 +9,6 @@
         SizeToContent="Height"
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
         x:Name="LayoutRoot"
-        Icon="/Resources/1494807789_share.png"
         WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding DeselectCommand}" />
