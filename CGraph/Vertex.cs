@@ -13,7 +13,7 @@ namespace CGraph
         [AlsoNotifyFor(nameof(Center))]
         public Point Position { get; set; }
 
-        public Point Center => Position - new Vector(2.5, 2.5);
+        public Point Center => Position - new Vector(5.0, 5.0);
 
         public int ZIndex => 1;
     }

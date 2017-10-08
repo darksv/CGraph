@@ -121,8 +121,8 @@ namespace CGraph
             {
                 sortedVertices[i].Position = new Point
                 {
-                    X = center.X + 100 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 2.5,
-                    Y = center.Y + 100 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 2.5
+                    X = center.X + 100 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 5.0,
+                    Y = center.Y + 100 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 5.0
                 };
             }
         }
@@ -185,9 +185,9 @@ namespace CGraph
             }
 
             Vertices.Clear();
-            for (int i = 0; i < dialog.NumberOfVertices; ++i)
+            for (int i = 1; i <= dialog.NumberOfVertices; ++i)
             {
-                Vertices.Add(new Vertex());
+                Vertices.Add(new Vertex {Name = i.ToString()});
             }
             CreateRandomEdges(dialog.NumberOfEdges);
             SpreadVertices();

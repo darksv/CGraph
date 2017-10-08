@@ -68,29 +68,14 @@
                         <Button Command="{Binding DataContext.SelectVertexCommand, ElementName=LayoutRoot}" CommandParameter="{Binding}">
                             <Button.Template>
                                 <ControlTemplate>
-                                    <Ellipse Width="5"
-                                             Height="5"
-                                             ToolTip="{Binding Name}"
-                                             ContextMenu="{StaticResource VertexContextMenu}" 
-                                             Tag="{Binding ElementName=LayoutRoot}"
-                                             Cursor="Hand">
-                                        <Ellipse.Style>
-                                            <Style TargetType="Ellipse">
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="Fill" Value="#000000" />
-                                                        <Setter Property="Stroke" Value="#009000" />
-                                                        <Setter Property="StrokeThickness" Value="1" />
-                                                    </DataTrigger>
-                                                    <DataTrigger Binding="{Binding IsSelected}" Value="False">
-                                                        <Setter Property="Fill" Value="#000000" />
-                                                        <Setter Property="Stroke" Value="Transparent" />
-                                                        <Setter Property="StrokeThickness" Value="1" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Ellipse.Style>
-                                    </Ellipse>
+                                    <local:VertexView
+                                        IsSelected="{Binding IsSelected}"
+                                        Label="{Binding Name}"
+                                        ContextMenu="{StaticResource VertexContextMenu}"
+                                        Tag="{Binding ElementName=LayoutRoot}"
+                                        Cursor="Hand"
+                                        Width="10"
+                                        Height="10" />
                                 </ControlTemplate>
                             </Button.Template>
                         </Button>
