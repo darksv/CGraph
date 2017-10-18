@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Graph.cs" />
     <Compile Include="GraphCreatorWindow.xaml.cs">
       <DependentUpon>GraphCreatorWindow.xaml</DependentUpon>
     </Compile>

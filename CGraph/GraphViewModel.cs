@@ -43,6 +43,7 @@ namespace CGraph
 
         private void SelectVertex(Vertex vertex)
         {
+            return;
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 vertex.IsSelected = true;
@@ -73,6 +74,7 @@ namespace CGraph
 
         private void DeleteVertex(Vertex vertex)
         {
+            return;
             if (!Vertices.Remove(vertex))
             {
                 return;
@@ -89,11 +91,13 @@ namespace CGraph
 
         private void DeleteEdge(Edge edge)
         {
+            return;
             Edges.Remove(edge);
         }
 
         private void DeleteRandomVertex()
         {
+            return;
             var randomVertex = Vertices.OrderBy(x => Guid.NewGuid())
                 .FirstOrDefault();
 
@@ -184,12 +188,29 @@ namespace CGraph
                 return;
             }
 
+            var numberOfVertices = dialog.NumberOfVertices;
+            var graph = new Graph(numberOfVertices);
+            graph.Random(0.1);
+
             Vertices.Clear();
-            for (int i = 1; i <= dialog.NumberOfVertices; ++i)
+            Edges.Clear();
+
+            for (int i = 1; i <= numberOfVertices; ++i)
             {
-                Vertices.Add(new Vertex {Name = i.ToString()});
+                Vertices.Add(new Vertex { Name = i.ToString() });
             }
-            CreateRandomEdges(dialog.NumberOfEdges);
+
+            for (int i = 0; i < numberOfVertices; ++i)
+            {
+                for (int j = i + 1; j < numberOfVertices; ++j)
+                {
+                    if (graph[i, j])
+                    {
+                        Edges.Add(new Edge(Vertices[i], Vertices[j]));
+                    }
+                }
+            }
+
             SpreadVertices();
         }
 
