@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -24,9 +23,6 @@ namespace CGraph
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
         public ICommand DeleteRandomVertexCommand => new RelayCommand(DeleteRandomVertex);
         public ICommand SpreadVerticesCommand => new RelayCommand(SpreadVertices);
-        public ICommand CreateComplementaryGraphCommand => new RelayCommand(CreateComplementaryGraph);
-        public ICommand CreateRandomEdgesCommand => new RelayCommand(
-            () => CreateRandomEdges(_random.Next(0, Vertices.Count * (Vertices.Count - 1) / 2)));
         public ICommand DeleteGraphCommand => new RelayCommand(DeleteGraph);
         public ICommand DeleteSelectedCommand => new RelayCommand(DeleteSelected);
         public ICommand CreateGraphCommand => new RelayCommand(CreateGraph);
@@ -131,32 +127,6 @@ namespace CGraph
             }
         }
 
-        private void CreateComplementaryGraph()
-        {
-            var complementaryEdges = CreateClique()
-                .Except(Edges, new EdgeEqualityComparer())
-                .ToArray();
-
-            Edges.Clear();
-            foreach (var edge in complementaryEdges)
-            {
-                Edges.Add(edge);
-            }
-        }
-
-        private void CreateRandomEdges(int numberOfEdges)
-        {
-            var allEdges = CreateClique()
-                .OrderBy(x => Guid.NewGuid())
-                .Take(numberOfEdges);
-
-            Edges.Clear();
-            foreach (var edge in allEdges)
-            {
-                Edges.Add(edge);
-            }
-        }
-
         private void DeleteGraph()
         {
             var dialogResult = MessageBox.Show("Graf zostanie usunięty. Czy chcesz kontynuować?", "Potwierdzenie", MessageBoxButton.YesNo);
@@ -188,39 +158,36 @@ namespace CGraph
                 return;
             }
 
-            var numberOfVertices = dialog.NumberOfVertices;
-            var graph = new Graph(numberOfVertices);
-            graph.Random(0.1);
+            var generator = new ConnectedGraphGenerator(dialog.NumberOfVertices, dialog.ProbabilityOfEdgeExistence);
+            var graph = generator.Generate();
+            if (graph == null)
+            {
+                MessageBox.Show("Nie znaleziono grafu spójnego dla danych parametrów.");
+                return;
+            }
 
+            DisplayGraph(graph);
+            SpreadVertices();
+        }
+
+        private void DisplayGraph(Graph graph)
+        {
             Vertices.Clear();
             Edges.Clear();
 
-            for (int i = 1; i <= numberOfVertices; ++i)
+            for (int i = 1; i <= graph.NumberOfVertices; ++i)
             {
                 Vertices.Add(new Vertex { Name = i.ToString() });
             }
 
-            for (int i = 0; i < numberOfVertices; ++i)
+            for (int i = 0; i < graph.NumberOfVertices; ++i)
             {
-                for (int j = i + 1; j < numberOfVertices; ++j)
+                for (int j = i + 1; j < graph.NumberOfVertices; ++j)
                 {
                     if (graph[i, j])
                     {
                         Edges.Add(new Edge(Vertices[i], Vertices[j]));
                     }
-                }
-            }
-
-            SpreadVertices();
-        }
-
-        private IEnumerable<Edge> CreateClique()
-        {
-            for (int i = 0; i < Vertices.Count; ++i)
-            {
-                for (int j = i + 1; j < Vertices.Count; ++j)
-                {
-                    yield return new Edge(Vertices[i], Vertices[j]);
                 }
             }
         }
@@ -229,16 +196,6 @@ namespace CGraph
         {
             var angle = Math.Atan2(vec.Y, vec.X);
             return angle < 0 ? angle + 2.0 * Math.PI : angle;
-        }
-
-        public void MakeEdges()
-        {
-            Edges.Clear();
-
-            foreach (var edge in CreateClique())
-            {
-                Edges.Add(edge);
-            }
         }
     }
 }

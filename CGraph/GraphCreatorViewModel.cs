@@ -7,10 +7,8 @@ namespace CGraph
     [ImplementPropertyChanged]
     public class GraphCreatorViewModel
     {
-        public int NumberOfVertices { get; set; }
-        public int NumberOfEdges { get; set; }
-        public int MaximumNumberOfEdges => NumberOfVertices * (NumberOfVertices - 1) / 2;
-        public bool CanCreate => NumberOfEdges <= MaximumNumberOfEdges;
+        public int NumberOfVertices { get; set; } = 10;
+        public double ProbabilityOfEdgeExistence { get; set; } = 0.35;
         public ICommand CreateCommand { get; }
         public ICommand CancelCommand { get; }
 

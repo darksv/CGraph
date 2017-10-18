@@ -13,11 +13,12 @@ namespace CGraph
             InitializeComponent();
 
             DataContext = _graph;
-            _graph.MakeEdges();
         }
 
         private void UIElement_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs args)
         {
+            return;
+
             if (args.ChangedButton != MouseButton.Left || args.ClickCount != 2)
             {
                 return;

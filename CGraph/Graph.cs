@@ -15,6 +15,8 @@ namespace CGraph
 
         public bool this[int i, int j] => _adjacencyMatrix[i, j];
 
+        public int NumberOfVertices => _numberOfVertices;
+
         public void Random(double edgeExistenceProbability)
         {
             var random = new Random();

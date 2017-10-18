@@ -7,7 +7,7 @@ namespace CGraph
         private readonly GraphCreatorViewModel _graphCreator;
 
         public int NumberOfVertices => _graphCreator.NumberOfVertices;
-        public int NumberOfEdges => _graphCreator.NumberOfEdges;
+        public double ProbabilityOfEdgeExistence => _graphCreator.ProbabilityOfEdgeExistence;
 
         public GraphCreatorWindow()
         {

@@ -24,6 +24,9 @@
             <Style TargetType="xctk:IntegerUpDown">
                 <Setter Property="Margin" Value="5,2.5" />
             </Style>
+            <Style TargetType="xctk:DoubleUpDown">
+                <Setter Property="Margin" Value="5,2.5" />
+            </Style>
             <Style TargetType="Button">
                 <Setter Property="Margin" Value="5" />
                 <Setter Property="Padding" Value="5" />
@@ -33,10 +36,10 @@
         <Label>Ilość wierzchołków:</Label>
         <xctk:IntegerUpDown Minimum="1" Value="{Binding NumberOfVertices}" />
         
-        <Label>Ilość krawędzi:</Label>
-        <xctk:IntegerUpDown Minimum="0" Maximum="{Binding MaximumNumberOfEdges}" Value="{Binding NumberOfEdges}" />
+        <Label>Prawdopodobieństwo istnienia krawędzi:</Label>
+        <xctk:DoubleUpDown Minimum="0" Maximum="1" Increment="0.05" Value="{Binding ProbabilityOfEdgeExistence}" />
         
-        <Button IsEnabled="{Binding CanCreate}" Command="{Binding CreateCommand}">Utwórz graf</Button>
+        <Button Command="{Binding CreateCommand}">Utwórz graf</Button>
         <Button Command="{Binding CancelCommand}">Anuluj</Button>
     </UniformGrid>
 </Window>
