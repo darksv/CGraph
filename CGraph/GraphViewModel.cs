@@ -14,7 +14,13 @@ namespace CGraph
 
         public ObservableCollection<Vertex> Vertices { get; } = new ObservableCollection<Vertex>();
         public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
+        public GraphCreatorViewModel GraphCreatorViewModel { get; }
 
+        public GraphViewModel()
+        {
+            GraphCreatorViewModel = new GraphCreatorViewModel(CreateGraph);
+        }
+        
         #region Commands
         
         public ICommand DeselectCommand => new RelayCommand(Deselect);
@@ -152,13 +158,10 @@ namespace CGraph
 
         private void CreateGraph()
         {
-            var dialog = new GraphCreatorWindow();
-            if (dialog.ShowDialog() != true)
-            {
-                return;
-            }
+            var numberOfVertices = GraphCreatorViewModel.NumberOfVertices;
+            var probabilityOfEdgeExistence = GraphCreatorViewModel.ProbabilityOfEdgeExistence;
 
-            var generator = new ConnectedGraphGenerator(dialog.NumberOfVertices, dialog.ProbabilityOfEdgeExistence);
+            var generator = new ConnectedGraphGenerator(numberOfVertices, probabilityOfEdgeExistence);
             var graph = generator.Generate();
             if (graph == null)
             {

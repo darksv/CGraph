@@ -1,6 +1,4 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CGraph
 {
@@ -11,24 +9,7 @@ namespace CGraph
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = _graph;
-        }
-
-        private void UIElement_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs args)
-        {
-            return;
-
-            if (args.ChangedButton != MouseButton.Left || args.ClickCount != 2)
-            {
-                return;
-            }
-            args.Handled = true;
-
-            _graph.Vertices.Add(new Vertex
-            {
-                Position = args.GetPosition((Canvas) sender)
-            });
         }
     }
 }

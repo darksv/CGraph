@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CGraph"
         mc:Ignorable="d"
-        Title="Graf" Width="500"
+        Title="Graf" Width="850"
         SizeToContent="Height"
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
         x:Name="LayoutRoot"
@@ -36,14 +36,8 @@
                     <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki na kręgu">
                         <Image Source="/Resources/font-awesome_4-7-0_circle-thin_256_0_000000_none.png" />
                     </Button>
-                    <Button Command="{Binding CreateComplementaryGraphCommand}" ToolTip="Stwórz graf dopełniający">
-                        <Image Source="/Resources/font-awesome_4-7-0_plus_256_0_000000_none.png" />
-                    </Button>
                     <Button Command="{Binding DeleteGraphCommand}" ToolTip="Wyczyść">
                         <Image Source="/Resources/font-awesome_4-7-0_trash_256_0_000000_none.png" />
-                    </Button>
-                    <Button Command="{Binding CreateRandomEdgesCommand}" ToolTip="Utwórz losowe krawędzie">
-                        <Image Source="/Resources/font-awesome_4-7-0_connectdevelop_256_0_000000_none.png" />
                     </Button>
                     <Button Command="{Binding DeleteRandomVertexCommand}" ToolTip="Usuń losowy wierchołek">
                         <Image Source="/Resources/font-awesome_4-7-0_minus_256_0_000000_none.png" />
@@ -51,66 +45,18 @@
                 </ToolBar>
             </ToolBarPanel>
         </StackPanel>
-        <Viewbox Grid.Row="1" Stretch="Uniform">
-            <ItemsControl>
-                <ItemsControl.Resources>
-                    <CollectionViewSource x:Key="EdgesViewSource" Source="{Binding Edges}" />
-                    <CollectionViewSource x:Key="VerticesViewSource" Source="{Binding Vertices}" />
-                    
-                    <ContextMenu x:Key="VertexContextMenu">
-                        <MenuItem Header="Usuń wierzchołek" Command="{Binding Path=DataContext.DeleteVertexCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
-                    </ContextMenu>
-                    <ContextMenu x:Key="EdgeContextMenu">
-                        <MenuItem Header="Usuń krawędź" Command="{Binding Path=DataContext.DeleteEdgeCommand, Source={x:Reference LayoutRoot}}" CommandParameter="{Binding}" />
-                    </ContextMenu>
-                    
-                    <DataTemplate DataType="{x:Type local:Vertex}">
-                        <Button Command="{Binding DataContext.SelectVertexCommand, ElementName=LayoutRoot}" CommandParameter="{Binding}">
-                            <Button.Template>
-                                <ControlTemplate>
-                                    <local:VertexView
-                                        IsSelected="{Binding IsSelected}"
-                                        Label="{Binding Name}"
-                                        ContextMenu="{StaticResource VertexContextMenu}"
-                                        Tag="{Binding ElementName=LayoutRoot}"
-                                        Cursor="Hand"
-                                        Width="10"
-                                        Height="10" />
-                                </ControlTemplate>
-                            </Button.Template>
-                        </Button>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type local:Edge}">
-                        <Line Stroke="#AAAAAA"
-                              StrokeThickness="0.5" 
-                              X1="{Binding A.Position.X}"
-                              Y1="{Binding A.Position.Y}"
-                              X2="{Binding B.Position.X}"
-                              Y2="{Binding B.Position.Y}" 
-                              ToolTip="{Binding Name}"
-                              ContextMenu="{StaticResource EdgeContextMenu}" />
-                    </DataTemplate>
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsSource>
-                    <CompositeCollection>
-                        <CollectionContainer Collection="{Binding Source={StaticResource VerticesViewSource}}" />
-                        <CollectionContainer Collection="{Binding Source={StaticResource EdgesViewSource}}" />
-                    </CompositeCollection>
-                </ItemsControl.ItemsSource>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Canvas Width="250" Height="250" MouseDown="UIElement_OnMouseLeftButtonUp" Background="White" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemContainerStyle>
-                    <Style TargetType="ContentPresenter">
-                        <Setter Property="Canvas.Left" Value="{Binding Center.X}" />
-                        <Setter Property="Canvas.Top" Value="{Binding Center.Y}" />
-                        <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-            </ItemsControl>
-        </Viewbox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="Generowanie">
+                    <local:GraphCreationParameters DataContext="{Binding GraphCreatorViewModel}" />
+                </GroupBox>
+            </StackPanel>
+            <local:GraphView Grid.Column="1" />
+        </Grid>
         <StatusBar Grid.Row="2">
             <TextBlock Text="{Binding Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
             <Separator />
