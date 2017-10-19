@@ -17,10 +17,11 @@ namespace CGraph
         public GraphCreatorViewModel GraphCreatorViewModel { get; }
         public bool IsRandomlySelected { get; set; } = true;
         public bool IsOnCircleSelected { get; set; }
+        public bool IsGenerating { get; set; } = false;
 
         public GraphViewModel()
         {
-            GraphCreatorViewModel = new GraphCreatorViewModel(CreateGraph);
+            GraphCreatorViewModel = new GraphCreatorViewModel(Generate);
         }
         
         #region Commands
@@ -31,11 +32,14 @@ namespace CGraph
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
         public ICommand DeleteRandomVertexCommand => new RelayCommand(DeleteRandomVertex);
         public ICommand SpreadVerticesCommand => new RelayCommand(Spread);
-        public ICommand DeleteGraphCommand => new RelayCommand(DeleteGraph);
-        public ICommand DeleteSelectedCommand => new RelayCommand(DeleteSelected);
-        public ICommand CreateGraphCommand => new RelayCommand(CreateGraph);
+        public ICommand GenerateCommand => new RelayCommand(Generate, CanGenerate);
 
         #endregion
+
+        private bool CanGenerate()
+        {
+            return !IsGenerating;
+        }
 
         private void Deselect()
         {
@@ -141,8 +145,8 @@ namespace CGraph
             {
                 sortedVertices[i].Position = new Point
                 {
-                    X = center.X + 120 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 5.0,
-                    Y = center.Y + 120 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 5.0
+                    X = center.X + 115 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 5.0,
+                    Y = center.Y + 115 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 5.0
                 };
             }
         }
@@ -160,30 +164,7 @@ namespace CGraph
             }
         }
 
-        private void DeleteGraph()
-        {
-            var dialogResult = MessageBox.Show("Graf zostanie usunięty. Czy chcesz kontynuować?", "Potwierdzenie", MessageBoxButton.YesNo);
-
-            if (dialogResult != MessageBoxResult.Yes)
-            {
-                return;
-            }
-            Edges.Clear();
-            Vertices.Clear();
-        }
-
-        private void DeleteSelected()
-        {
-            var verticesToDelete = Vertices.Where(x => x.IsSelected)
-                .ToArray();
-
-            foreach (var vertex in verticesToDelete)
-            {
-                DeleteVertex(vertex);
-            }
-        }
-
-        private void CreateGraph()
+        private void Generate()
         {
             var numberOfVertices = GraphCreatorViewModel.NumberOfVertices;
             var probabilityOfEdgeExistence = GraphCreatorViewModel.ProbabilityOfEdgeExistence;

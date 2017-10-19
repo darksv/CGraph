@@ -6,15 +6,17 @@ namespace CGraph
     public class RelayCommand : ICommand
     {
         private readonly Action _action;
+        private readonly Func<bool> _canExecute;
 
-        public RelayCommand(Action action)
+        public RelayCommand(Action action, Func<bool> canExecute = null)
         {
             _action = action;
+            _canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return true;
+            return _canExecute?.Invoke() ?? true;
         }
 
         public void Execute(object parameter)
@@ -22,7 +24,11 @@ namespace CGraph
             _action?.Invoke();
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 
     public class RelayCommand<T> : ICommand
@@ -44,6 +50,10 @@ namespace CGraph
             _action?.Invoke((T) parameter);
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler CanExecuteChanged
+        {
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
+        }
     }
 }

@@ -10,10 +10,6 @@
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
         x:Name="LayoutRoot"
         WindowStartupLocation="CenterScreen">
-    <Window.InputBindings>
-        <KeyBinding Key="Escape" Command="{Binding DeselectCommand}" />
-        <KeyBinding Key="Delete" Command="{Binding DeleteSelectedCommand}" />
-    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

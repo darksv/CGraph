@@ -4,7 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-             mc:Ignorable="d">
+             xmlns:cGraph="clr-namespace:CGraph"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type cGraph:GraphCreatorViewModel}}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -33,11 +35,11 @@
         </Grid.Resources>
 
         <Label Grid.Column="0" Grid.Row="0">Ilość wierzchołków:</Label>
-        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Minimum="1" Maximum="50" Value="{Binding NumberOfVertices}" />
+        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Minimum="1" Maximum="100" Value="{Binding NumberOfVertices}" />
 
         <Label Grid.Column="0" Grid.Row="1">Prawdopodobieństwo istnienia krawędzi:</Label>
         <xctk:DoubleUpDown Grid.Column="1" Grid.Row="1" Minimum="0" Maximum="1" Increment="0.05" Value="{Binding ProbabilityOfEdgeExistence}" />
 
-        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding CreateCommand}" >Utwórz graf</Button>
+        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding CreateCommand}" IsEnabled="{Binding CanExecute}">Generuj</Button>
     </Grid>
 </UserControl>
