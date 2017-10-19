@@ -11,7 +11,7 @@ namespace CGraph
         public void Execute(Graph g, int srcVertex, int verticesCount)
         {
             _stack.Push(srcVertex);
-            _currentVertex = srcVertex;
+            _currentVertex = srcVertex - 1;
             _verticesCount = verticesCount;
             while (_stack.Count != 0)
             {

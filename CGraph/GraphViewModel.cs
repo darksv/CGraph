@@ -15,6 +15,8 @@ namespace CGraph
         public ObservableCollection<Vertex> Vertices { get; } = new ObservableCollection<Vertex>();
         public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
         public GraphCreatorViewModel GraphCreatorViewModel { get; }
+        public bool IsRandomlySelected { get; set; } = true;
+        public bool IsOnCircleSelected { get; set; }
 
         public GraphViewModel()
         {
@@ -28,7 +30,7 @@ namespace CGraph
         public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
         public ICommand DeleteRandomVertexCommand => new RelayCommand(DeleteRandomVertex);
-        public ICommand SpreadVerticesCommand => new RelayCommand(SpreadVertices);
+        public ICommand SpreadVerticesCommand => new RelayCommand(Spread);
         public ICommand DeleteGraphCommand => new RelayCommand(DeleteGraph);
         public ICommand DeleteSelectedCommand => new RelayCommand(DeleteSelected);
         public ICommand CreateGraphCommand => new RelayCommand(CreateGraph);
@@ -109,7 +111,19 @@ namespace CGraph
             }
         }
 
-        private void SpreadVertices()
+        private void Spread()
+        {
+            if (IsOnCircleSelected)
+            {
+                SpreadOnCircle();
+            }
+            else if (IsRandomlySelected)
+            {
+                SpreadRandomly();
+            }
+        }
+
+        private void SpreadOnCircle()
         {
             var n = Vertices.Count;
 
@@ -127,8 +141,21 @@ namespace CGraph
             {
                 sortedVertices[i].Position = new Point
                 {
-                    X = center.X + 100 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 5.0,
-                    Y = center.Y + 100 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 5.0
+                    X = center.X + 120 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 5.0,
+                    Y = center.Y + 120 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 5.0
+                };
+            }
+        }
+
+        private void SpreadRandomly()
+        {
+            var center = new Point(125, 125);
+            foreach (var vertex in Vertices)
+            {
+                vertex.Position = new Point
+                {
+                    X = center.X + _random.Next(-115, 115),
+                    Y = center.Y + _random.Next(-115, 115)
                 };
             }
         }
@@ -169,7 +196,7 @@ namespace CGraph
             }
 
             DisplayGraph(graph);
-            SpreadVertices();
+            Spread();
         }
 
         private void DisplayGraph(Graph graph)

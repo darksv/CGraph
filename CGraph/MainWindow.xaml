@@ -20,31 +20,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <ToolBarPanel Background="Transparent">
-                <ToolBar ToolBarTray.IsLocked="True" Background="Transparent">
-                    <ToolBar.Resources>
-                        <Style TargetType="Image">
-                            <Setter Property="Width" Value="20" />
-                            <Setter Property="Height" Value="20" />
-                            <Setter Property="RenderOptions.BitmapScalingMode" Value="HighQuality" />
-                        </Style>
-                    </ToolBar.Resources>
-                    <Button Command="{Binding CreateGraphCommand}" ToolTip="Nowy graf">
-                        <Image Source="/Resources/font-awesome_4-7-0_share-alt_256_0_000000_none.png" />
-                    </Button>
-                    <Button Command="{Binding SpreadVerticesCommand}" ToolTip="Rozmieść wierzchołki na kręgu">
-                        <Image Source="/Resources/font-awesome_4-7-0_circle-thin_256_0_000000_none.png" />
-                    </Button>
-                    <Button Command="{Binding DeleteGraphCommand}" ToolTip="Wyczyść">
-                        <Image Source="/Resources/font-awesome_4-7-0_trash_256_0_000000_none.png" />
-                    </Button>
-                    <Button Command="{Binding DeleteRandomVertexCommand}" ToolTip="Usuń losowy wierchołek">
-                        <Image Source="/Resources/font-awesome_4-7-0_minus_256_0_000000_none.png" />
-                    </Button>
-                </ToolBar>
-            </ToolBarPanel>
-        </StackPanel>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -53,6 +28,9 @@
             <StackPanel Orientation="Vertical">
                 <GroupBox Header="Generowanie">
                     <local:GraphCreationParameters DataContext="{Binding GraphCreatorViewModel}" />
+                </GroupBox>
+                <GroupBox Header="Rysowanie">
+                    <local:GraphDrawingParameters />
                 </GroupBox>
             </StackPanel>
             <local:GraphView Grid.Column="1" />

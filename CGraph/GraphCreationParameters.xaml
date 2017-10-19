@@ -33,7 +33,7 @@
         </Grid.Resources>
 
         <Label Grid.Column="0" Grid.Row="0">Ilość wierzchołków:</Label>
-        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Minimum="1" Value="{Binding NumberOfVertices}" />
+        <xctk:IntegerUpDown Grid.Column="1" Grid.Row="0" Minimum="1" Maximum="50" Value="{Binding NumberOfVertices}" />
 
         <Label Grid.Column="0" Grid.Row="1">Prawdopodobieństwo istnienia krawędzi:</Label>
         <xctk:DoubleUpDown Grid.Column="1" Grid.Row="1" Minimum="0" Maximum="1" Increment="0.05" Value="{Binding ProbabilityOfEdgeExistence}" />

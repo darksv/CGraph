@@ -100,6 +100,9 @@
     <Compile Include="GraphCreatorViewModel.cs" />
     <Compile Include="Edge.cs" />
     <Compile Include="EdgeEqualityComparer.cs" />
+    <Compile Include="GraphDrawingParameters.xaml.cs">
+      <DependentUpon>GraphDrawingParameters.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GraphView.xaml.cs">
       <DependentUpon>GraphView.xaml</DependentUpon>
     </Compile>
@@ -110,6 +113,10 @@
       <DependentUpon>VertexView.xaml</DependentUpon>
     </Compile>
     <Page Include="GraphCreationParameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GraphDrawingParameters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
