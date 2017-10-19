@@ -165,7 +165,6 @@ namespace CGraph
             var graph = generator.Generate();
             if (graph == null)
             {
-                MessageBox.Show("Nie znaleziono grafu spójnego dla danych parametrów.");
                 return;
             }
 
