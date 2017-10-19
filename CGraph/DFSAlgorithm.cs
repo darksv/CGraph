@@ -4,15 +4,15 @@ namespace CGraph
 {
     class DFSAlgorithm
     {
-        private Stack<int> _stack = new Stack<int>();
-        private List<int> _visited = new List<int>();
+        private readonly Stack<int> _stack = new Stack<int>();
+        private readonly HashSet<int> _visited = new HashSet<int>();
         private int _currentVertex, _verticesCount;
 
-        public void Execute(Graph g, int srcVertex, int verticesCount)
+        public void Execute(Graph graph, int srcVertex)
         {
             _stack.Push(srcVertex);
             _currentVertex = srcVertex - 1;
-            _verticesCount = verticesCount;
+            _verticesCount = graph.NumberOfVertices;
             while (_stack.Count != 0)
             {
                 _currentVertex = _stack.Pop();
@@ -20,9 +20,9 @@ namespace CGraph
                     continue;
                 _visited.Add(_currentVertex);
 
-                for (int j = 0; j < verticesCount; j++)
+                for (int j = 0; j < graph.NumberOfVertices; j++)
                 {
-                    if (g[_currentVertex, j])
+                    if (graph[_currentVertex, j])
                     {
                         _stack.Push(j);
                     }

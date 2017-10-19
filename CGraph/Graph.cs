@@ -17,15 +17,13 @@ namespace CGraph
 
         public int NumberOfVertices => _numberOfVertices;
 
-        public void Random(double edgeExistenceProbability)
+        public void Random(double edgeExistenceProbability, Func<double> randomProvider)
         {
-            var random = new Random();
-
             for (int i = 0; i < _numberOfVertices; ++i)
             {
                 for (int j = i + 1; j < _numberOfVertices; ++j)
                 {
-                    var randomValue = random.NextDouble();
+                    var randomValue = randomProvider();
                     if (randomValue < edgeExistenceProbability)
                     {
                         _adjacencyMatrix[i, j] = true;

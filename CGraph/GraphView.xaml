@@ -37,7 +37,7 @@
                     </Button>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type local:Edge}">
-                    <Line Stroke="#AAAAAA"
+                    <Line Stroke="#000000"
                               StrokeThickness="0.5" 
                               X1="{Binding A.Position.X}"
                               Y1="{Binding A.Position.Y}"

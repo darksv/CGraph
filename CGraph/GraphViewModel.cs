@@ -18,6 +18,7 @@ namespace CGraph
         public bool IsRandomlySelected { get; set; } = true;
         public bool IsOnCircleSelected { get; set; }
         public bool IsGenerating { get; set; } = false;
+        public bool IsConnected { get; set; } = false;
 
         public GraphViewModel()
         {
@@ -178,6 +179,10 @@ namespace CGraph
 
             DisplayGraph(graph);
             Spread();
+
+            var algorithm = new DFSAlgorithm();
+            algorithm.Execute(graph, 1);
+            IsConnected = algorithm.IsConnected();
         }
 
         private void DisplayGraph(Graph graph)

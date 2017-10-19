@@ -10,6 +10,9 @@
         d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
         x:Name="LayoutRoot"
         WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <local:BooleanToTextConverter x:Key="BooleanToTextConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -35,6 +38,8 @@
             <TextBlock Text="{Binding Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
             <Separator />
             <TextBlock Text="{Binding Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
+            <Separator />
+            <TextBlock Text="{Binding Path=IsConnected, StringFormat='{}Spójny: {0}', Mode=OneWay, Converter={StaticResource BooleanToTextConverter}}" />
         </StatusBar>
     </Grid>
 </Window>

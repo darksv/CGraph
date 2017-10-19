@@ -91,6 +91,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BooleanToTextConverter.cs" />
     <Compile Include="ConnectedGraphGenerator.cs" />
     <Compile Include="DFSAlgorithm.cs" />
     <Compile Include="Graph.cs" />

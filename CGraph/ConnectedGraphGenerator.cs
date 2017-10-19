@@ -1,8 +1,11 @@
-﻿namespace CGraph
+﻿using System;
+
+namespace CGraph
 {
 
     public class ConnectedGraphGenerator : IGraphGenerator
     {
+        private static readonly Random _random = new Random();
         private readonly int _numberOfVertices;
         private readonly double _probabilityOfEdgeExistence;
 
@@ -15,19 +18,8 @@
         public Graph Generate()
         {
             var graph = new Graph(_numberOfVertices);
-            var checker = new DFSAlgorithm();
-            
-            for (int i = 0; i < 10000; ++i)
-            {
-                graph.Random(_probabilityOfEdgeExistence);
-                checker.Execute(graph, 1, _numberOfVertices);
-                if (checker.IsConnected())
-                {
-                    return graph;
-                }
-            }
-            
-            return null;
+            graph.Random(_probabilityOfEdgeExistence, _random.NextDouble);
+            return graph;
         }
     }
 }
