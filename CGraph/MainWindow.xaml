@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Graf" Width="850"
         SizeToContent="Height"
-        d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
+        d:DataContext="{d:DesignInstance {x:Type local:MainViewModel}}"
         x:Name="LayoutRoot"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -26,18 +26,19 @@
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Vertical">
                 <GroupBox Header="Generowanie">
-                    <local:GraphCreationParameters DataContext="{Binding GraphCreatorViewModel}" />
+                    <local:GraphCreationParameters DataContext="{Binding GraphCreator}" />
                 </GroupBox>
                 <GroupBox Header="Rysowanie">
                     <local:GraphDrawingParameters />
                 </GroupBox>
+                <local:MatrixViewModel DataContext="{Binding Graph}" />
             </StackPanel>
-            <local:GraphView Grid.Column="1" />
+            <local:GraphView Grid.Column="1" DataContext="{Binding Graph}" />
         </Grid>
         <StatusBar Grid.Row="2">
-            <TextBlock Text="{Binding Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
+            <TextBlock Text="{Binding Graph.Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
             <Separator />
-            <TextBlock Text="{Binding Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
+            <TextBlock Text="{Binding Graph.Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
             <Separator />
             <TextBlock Text="{Binding Path=IsConnected, StringFormat='{}Spójny: {0}', Mode=OneWay, Converter={StaticResource BooleanToTextConverter}}" />
         </StatusBar>

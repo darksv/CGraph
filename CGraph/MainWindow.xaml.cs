@@ -4,12 +4,12 @@ namespace CGraph
 {
     public partial class MainWindow : Window
     {
-        private readonly GraphViewModel _graph = new GraphViewModel();
+        private readonly MainViewModel _main = new MainViewModel();
 
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = _graph;
+            DataContext = _main;
         }
     }
 }

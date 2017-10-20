@@ -108,6 +108,7 @@
     <Compile Include="GraphView.xaml.cs">
       <DependentUpon>GraphView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GraphViewModel.cs" />
     <Compile Include="IGraphGenerator.cs" />
     <Compile Include="IVertexSpreader.cs" />
     <Compile Include="MatrixViewModel.xaml.cs">
@@ -115,6 +116,7 @@
     </Compile>
     <Compile Include="RandomVertexSpreader.cs" />
     <Compile Include="RelayCommand.cs" />
+    <Compile Include="SpreadMode.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="VertexView.xaml.cs">
       <DependentUpon>VertexView.xaml</DependentUpon>
@@ -139,7 +141,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GraphViewModel.cs" />
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
