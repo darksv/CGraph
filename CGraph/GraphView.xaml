@@ -30,8 +30,8 @@
                                         ContextMenu="{StaticResource VertexContextMenu}"
                                         Tag="{Binding ElementName=LayoutRoot}"
                                         Cursor="Hand"
-                                        Width="10"
-                                        Height="10" />
+                                        Width="{Binding Size}"
+                                        Height="{Binding Size}" />
                             </ControlTemplate>
                         </Button.Template>
                     </Button>

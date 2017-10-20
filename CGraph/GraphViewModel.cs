@@ -118,51 +118,17 @@ namespace CGraph
 
         private void Spread()
         {
+            IVertexSpreader spreader = null;
             if (IsOnCircleSelected)
             {
-                SpreadOnCircle();
+                spreader = new CircleVertexSpreader();
             }
             else if (IsRandomlySelected)
             {
-                SpreadRandomly();
+                spreader = new RandomVertexSpreader();
             }
-        }
 
-        private void SpreadOnCircle()
-        {
-            var n = Vertices.Count;
-
-            var center = new Point(125, 125);
-            var sortedVertices = Vertices.Select(vertex => new
-                {
-                    Vertex = vertex,
-                    Angle = CalculateAngle(vertex.Position - center)
-                })
-                .OrderBy(x => x.Angle)
-                .Select(x => x.Vertex)
-                .ToArray();
-
-            for (int i = 0; i < n; ++i)
-            {
-                sortedVertices[i].Position = new Point
-                {
-                    X = center.X + 115 * Math.Cos((double) (i + 1) / n * 2 * Math.PI) - 5.0,
-                    Y = center.Y + 115 * Math.Sin((double) (i + 1) / n * 2 * Math.PI) - 5.0
-                };
-            }
-        }
-
-        private void SpreadRandomly()
-        {
-            var center = new Point(125, 125);
-            foreach (var vertex in Vertices)
-            {
-                vertex.Position = new Point
-                {
-                    X = center.X + _random.Next(-115, 115),
-                    Y = center.Y + _random.Next(-115, 115)
-                };
-            }
+            spreader?.Spread(Vertices, new Size(250, 250));
         }
 
         private void Generate()
@@ -205,12 +171,6 @@ namespace CGraph
                     }
                 }
             }
-        }
-
-        private double CalculateAngle(Vector vec)
-        {
-            var angle = Math.Atan2(vec.Y, vec.X);
-            return angle < 0 ? angle + 2.0 * Math.PI : angle;
         }
     }
 }
