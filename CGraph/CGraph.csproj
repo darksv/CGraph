@@ -111,8 +111,8 @@
     <Compile Include="GraphViewModel.cs" />
     <Compile Include="IGraphGenerator.cs" />
     <Compile Include="IVertexSpreader.cs" />
-    <Compile Include="MatrixViewModel.xaml.cs">
-      <DependentUpon>MatrixViewModel.xaml</DependentUpon>
+    <Compile Include="MatrixView.xaml.cs">
+      <DependentUpon>MatrixView.xaml</DependentUpon>
     </Compile>
     <Compile Include="RandomVertexSpreader.cs" />
     <Compile Include="RelayCommand.cs" />
@@ -146,7 +146,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MatrixViewModel.xaml">
+    <Page Include="MatrixView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

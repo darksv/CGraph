@@ -4,14 +4,17 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using PropertyChanged;
 
 namespace CGraph
 {
+    [ImplementPropertyChanged]
     public class GraphViewModel
     {
         public ObservableCollection<Vertex> Vertices { get; } = new ObservableCollection<Vertex>();
         public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
-        
+        public IEnumerable<bool> AdjacencyMatrix { get; private set; }
+        public int NumberOfVertices { get; set; }
         public ICommand DeselectCommand => new RelayCommand(Deselect);
         public ICommand SelectVertexCommand => new RelayCommand<Vertex>(SelectVertex);
         public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
@@ -118,7 +121,19 @@ namespace CGraph
         public void Show(Graph graph, SpreadMode spreadMode)
         {
             CreateFromStructure(graph);
+            AdjacencyMatrix = MakeMe(graph).ToArray();
             Spread(spreadMode);
+        }
+
+        private IEnumerable<bool> MakeMe(Graph graph)
+        {
+            for (int i = 0; i < graph.NumberOfVertices; ++i)
+            {
+                for (int j = 0; j < graph.NumberOfVertices; ++j)
+                {
+                    yield return graph[i, j];
+                }
+            }
         }
 
         public void Spread(SpreadMode mode)

@@ -31,7 +31,9 @@
                 <GroupBox Header="Rysowanie">
                     <local:GraphDrawingParameters />
                 </GroupBox>
-                <local:MatrixViewModel DataContext="{Binding Graph}" />
+                <GroupBox Header="Macierz incydencji">
+                    <local:MatrixView Margin="5" DataContext="{Binding Graph}" />
+                </GroupBox>
             </StackPanel>
             <local:GraphView Grid.Column="1" DataContext="{Binding Graph}" />
         </Grid>

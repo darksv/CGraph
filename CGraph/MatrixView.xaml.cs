@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace CGraph
 {
     /// <summary>
-    /// Interaction logic for MatrixViewModel.xaml
+    /// Interaction logic for MatrixView.xaml
     /// </summary>
-    public partial class MatrixViewModel : UserControl
+    public partial class MatrixView : UserControl
     {
-        public MatrixViewModel()
+        public MatrixView()
         {
             InitializeComponent();
         }
