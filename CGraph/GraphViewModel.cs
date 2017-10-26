@@ -19,7 +19,6 @@ namespace CGraph
         public ICommand SelectVertexCommand => new RelayCommand<Vertex>(SelectVertex);
         public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
-        public ICommand DeleteRandomVertexCommand => new RelayCommand(DeleteRandomVertex);
 
         private void Deselect()
         {
@@ -31,7 +30,6 @@ namespace CGraph
 
         private void SelectVertex(Vertex vertex)
         {
-            return;
             if (Keyboard.IsKeyDown(Key.LeftCtrl))
             {
                 vertex.IsSelected = true;
@@ -62,7 +60,6 @@ namespace CGraph
 
         private void DeleteVertex(Vertex vertex)
         {
-            return;
             if (!Vertices.Remove(vertex))
             {
                 return;
@@ -79,22 +76,8 @@ namespace CGraph
 
         private void DeleteEdge(Edge edge)
         {
-            return;
             Edges.Remove(edge);
         }
-
-        private void DeleteRandomVertex()
-        {
-            return;
-            var randomVertex = Vertices.OrderBy(x => Guid.NewGuid())
-                .FirstOrDefault();
-
-            if (randomVertex != null)
-            {
-                DeleteVertex(randomVertex);
-            }
-        }
-
 
         private void CreateFromStructure(Graph graph)
         {
