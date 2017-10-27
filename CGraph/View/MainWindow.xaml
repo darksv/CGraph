@@ -1,0 +1,51 @@
+﻿<Window x:Class="CGraph.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:CGraph.Converter"
+        xmlns:view="clr-namespace:CGraph.View"
+        xmlns:viewModel="clr-namespace:CGraph.ViewModel"
+        mc:Ignorable="d"
+        Title="Graf" Width="850"
+        SizeToContent="Height"
+        d:DataContext="{d:DesignInstance {x:Type viewModel:MainViewModel}}"
+        x:Name="LayoutRoot"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converter:BooleanToTextConverter x:Key="BooleanToTextConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <GroupBox Header="Generowanie">
+                    <view:GraphCreationParameters DataContext="{Binding GraphCreator}" />
+                </GroupBox>
+                <GroupBox Header="Rysowanie">
+                    <view:GraphDrawingParameters />
+                </GroupBox>
+                <GroupBox Header="Macierz incydencji">
+                    <view:MatrixView Margin="5" DataContext="{Binding Graph}" />
+                </GroupBox>
+            </StackPanel>
+            <view:GraphView Grid.Column="1" DataContext="{Binding Graph}" />
+        </Grid>
+        <StatusBar Grid.Row="2">
+            <TextBlock Text="{Binding Graph.Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
+            <Separator />
+            <TextBlock Text="{Binding Graph.Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
+            <Separator />
+            <TextBlock
+                Text="{Binding Path=IsConnected, StringFormat='{}Spójny: {0}', Mode=OneWay, Converter={StaticResource BooleanToTextConverter}}" />
+        </StatusBar>
+    </Grid>
+</Window>

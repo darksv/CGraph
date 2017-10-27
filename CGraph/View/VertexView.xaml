@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="CGraph.View.VertexView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:view="clr-namespace:CGraph.View"
+             mc:Ignorable="d"
+             d:DataContext="{d:DesignInstance {x:Type view:VertexView}}">
+    <Grid Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}">
+        <Ellipse>
+            <Ellipse.Style>
+                <Style TargetType="Ellipse">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                            <Setter Property="Fill" Value="#FFFFFF" />
+                            <Setter Property="Stroke" Value="#009000" />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                            <Setter Property="Fill" Value="#FFFFFF" />
+                            <Setter Property="Stroke" Value="#000000" />
+                            <Setter Property="StrokeThickness" Value="1" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Ellipse.Style>
+        </Ellipse>
+        <Viewbox Margin="1">
+            <TextBlock Text="{Binding Name}" Width="Auto" Height="Auto" />
+        </Viewbox>
+    </Grid>
+</UserControl>

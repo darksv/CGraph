@@ -91,51 +91,51 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BooleanToTextConverter.cs" />
-    <Compile Include="CircleVertexSpreader.cs" />
-    <Compile Include="ConnectedGraphGenerator.cs" />
-    <Compile Include="DFSAlgorithm.cs" />
-    <Compile Include="Graph.cs" />
-    <Compile Include="GraphCreationParameters.xaml.cs">
+    <Compile Include="Converter\BooleanToTextConverter.cs" />
+    <Compile Include="Core\Spreader\CircleVertexSpreader.cs" />
+    <Compile Include="Core\Generator\SimpleGraphGenerator.cs" />
+    <Compile Include="Core\Algorithm\DFSAlgorithm.cs" />
+    <Compile Include="Core\Graph.cs" />
+    <Compile Include="View\GraphCreationParameters.xaml.cs">
       <DependentUpon>GraphCreationParameters.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphCreatorViewModel.cs" />
-    <Compile Include="Edge.cs" />
-    <Compile Include="EdgeEqualityComparer.cs" />
-    <Compile Include="GraphDrawingParameters.xaml.cs">
+    <Compile Include="ViewModel\GraphCreatorViewModel.cs" />
+    <Compile Include="Core\Edge.cs" />
+    <Compile Include="Util\EdgeEqualityComparer.cs" />
+    <Compile Include="View\GraphDrawingParameters.xaml.cs">
       <DependentUpon>GraphDrawingParameters.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphView.xaml.cs">
+    <Compile Include="View\GraphView.xaml.cs">
       <DependentUpon>GraphView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GraphViewModel.cs" />
-    <Compile Include="IGraphGenerator.cs" />
-    <Compile Include="IVertexSpreader.cs" />
-    <Compile Include="MatrixView.xaml.cs">
+    <Compile Include="ViewModel\GraphViewModel.cs" />
+    <Compile Include="Core\IGraphGenerator.cs" />
+    <Compile Include="Core\IVertexSpreader.cs" />
+    <Compile Include="View\MatrixView.xaml.cs">
       <DependentUpon>MatrixView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ObjectToTypeConverter.cs" />
-    <Compile Include="RandomExtensions.cs" />
-    <Compile Include="RandomVertexSpreader.cs" />
-    <Compile Include="RelayCommand.cs" />
-    <Compile Include="SpreadMode.cs" />
-    <Compile Include="Vertex.cs" />
-    <Compile Include="VertexView.xaml.cs">
+    <Compile Include="Converter\ObjectToTypeConverter.cs" />
+    <Compile Include="Util\RandomExtensions.cs" />
+    <Compile Include="Core\Spreader\RandomVertexSpreader.cs" />
+    <Compile Include="Util\RelayCommand.cs" />
+    <Compile Include="Core\SpreadMode.cs" />
+    <Compile Include="Core\Vertex.cs" />
+    <Compile Include="View\VertexView.xaml.cs">
       <DependentUpon>VertexView.xaml</DependentUpon>
     </Compile>
-    <Page Include="GraphCreationParameters.xaml">
+    <Page Include="View\GraphCreationParameters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GraphDrawingParameters.xaml">
+    <Page Include="View\GraphDrawingParameters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GraphView.xaml">
+    <Page Include="View\GraphView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -143,16 +143,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainViewModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MatrixView.xaml">
+    <Page Include="View\MatrixView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="VertexView.xaml">
+    <Page Include="View\VertexView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
