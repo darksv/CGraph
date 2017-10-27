@@ -96,6 +96,7 @@
     <Compile Include="Core\Generator\SimpleGraphGenerator.cs" />
     <Compile Include="Core\Algorithm\DFSAlgorithm.cs" />
     <Compile Include="Core\Graph.cs" />
+    <Compile Include="ViewModel\MatrixCellViewModel.cs" />
     <Compile Include="View\GraphCreationParameters.xaml.cs">
       <DependentUpon>GraphCreationParameters.xaml</DependentUpon>
     </Compile>

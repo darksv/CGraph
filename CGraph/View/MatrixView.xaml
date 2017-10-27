@@ -14,18 +14,19 @@
             </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
         <ItemsControl.ItemTemplate>
-            <DataTemplate>
+            <DataTemplate DataType="{x:Type viewModel:MatrixCellViewModel}">
                 <Label
                     VerticalContentAlignment="Center"
-                    HorizontalContentAlignment="Center">
+                    HorizontalContentAlignment="Center"
+                    Cursor="Hand">
                     <Label.Style>
                         <Style TargetType="Label">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding}" Value="True">
+                                <DataTrigger Binding="{Binding Value}" Value="True">
                                     <Setter Property="Content" Value="1" />
                                     <Setter Property="Foreground" Value="#FF000000" />
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding}" Value="False">
+                                <DataTrigger Binding="{Binding Value}" Value="False">
                                     <Setter Property="Content" Value="0" />
                                     <Setter Property="Foreground" Value="#80000000" />
                                 </DataTrigger>

@@ -15,7 +15,7 @@ namespace CGraph.ViewModel
     {
         public ObservableCollection<Vertex> Vertices { get; } = new ObservableCollection<Vertex>();
         public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
-        public IEnumerable<bool> AdjacencyMatrix { get; private set; }
+        public IEnumerable<MatrixCellViewModel> AdjacencyMatrix { get; private set; }
         public int NumberOfVertices { get; set; }
         public ICommand DeselectCommand => new RelayCommand(Deselect);
         public ICommand SelectVertexCommand => new RelayCommand<Vertex>(SelectVertex);
@@ -88,7 +88,7 @@ namespace CGraph.ViewModel
 
             for (int i = 1; i <= graph.NumberOfVertices; ++i)
             {
-                Vertices.Add(new Vertex {Id = i});
+                Vertices.Add(new Vertex { Id = i });
             }
 
             for (int i = 0; i < graph.NumberOfVertices; ++i)
@@ -103,20 +103,23 @@ namespace CGraph.ViewModel
             }
         }
 
-        public void Show(Core.Graph graph, SpreadMode spreadMode)
+        public void Show(Graph graph, SpreadMode spreadMode)
         {
             CreateFromStructure(graph);
             AdjacencyMatrix = MakeMe(graph).ToArray();
             Spread(spreadMode);
         }
 
-        private IEnumerable<bool> MakeMe(Core.Graph graph)
+        private IEnumerable<MatrixCellViewModel> MakeMe(Graph graph)
         {
             for (int i = 0; i < graph.NumberOfVertices; ++i)
             {
                 for (int j = 0; j < graph.NumberOfVertices; ++j)
                 {
-                    yield return graph[i, j];
+                    yield return new MatrixCellViewModel
+                    {
+                        Value = graph[i, j]
+                    };
                 }
             }
         }
