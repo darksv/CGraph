@@ -12,11 +12,12 @@ namespace CGraph
         {
             foreach (var vertex in vertices)
             {
-                var vertexRadius = (int)(vertex.Size / 2);
+                var margin = vertex.Size / 2.0;
+
                 vertex.Position = new Point
                 {
-                    X = _random.Next(vertexRadius, (int)area.Width - vertexRadius),
-                    Y = _random.Next(vertexRadius, (int)area.Height - vertexRadius),
+                    X = _random.NextDouble(margin, area.Width - margin),
+                    Y = _random.NextDouble(margin, area.Height - margin),
                 };
             }
         }
