@@ -114,6 +114,7 @@
     <Compile Include="MatrixView.xaml.cs">
       <DependentUpon>MatrixView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectToTypeConverter.cs" />
     <Compile Include="RandomVertexSpreader.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="SpreadMode.cs" />

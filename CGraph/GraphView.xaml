@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:CGraph"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance {x:Type local:GraphViewModel}}"
              x:Name="LayoutRoot">
     <Viewbox Stretch="Uniform">
         <ItemsControl>
@@ -60,9 +61,16 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemContainerStyle>
                 <Style TargetType="ContentPresenter">
-                    <Setter Property="Canvas.Left" Value="{Binding Center.X}" />
-                    <Setter Property="Canvas.Top" Value="{Binding Center.Y}" />
-                    <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
+                    <Style.Resources>
+                        <local:ObjectToTypeConverter x:Key="ObjectToTypeConverter" />
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Converter={StaticResource ObjectToTypeConverter}}" Value="{x:Type local:Vertex}" d:DataContext="{d:DesignInstance local:Vertex}">
+                            <Setter Property="Canvas.Left" Value="{Binding Center.X}" />
+                            <Setter Property="Canvas.Top" Value="{Binding Center.Y}" />
+                            <Setter Property="Canvas.ZIndex" Value="{Binding ZIndex}" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </ItemsControl.ItemContainerStyle>
         </ItemsControl>
