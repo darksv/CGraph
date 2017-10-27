@@ -6,7 +6,7 @@
              xmlns:view="clr-namespace:CGraph.View"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance {x:Type view:VertexView}}">
-    <Grid Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}">
+    <Grid Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}" x:Name="LayoutRoot">
         <Ellipse>
             <Ellipse.Style>
                 <Style TargetType="Ellipse">
@@ -26,7 +26,7 @@
             </Ellipse.Style>
         </Ellipse>
         <Viewbox Margin="1">
-            <TextBlock Text="{Binding Name}" Width="Auto" Height="Auto" />
+            <TextBlock Text="{Binding Label}" Width="Auto" Height="Auto" />
         </Viewbox>
     </Grid>
 </UserControl>

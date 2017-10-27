@@ -88,7 +88,7 @@ namespace CGraph.ViewModel
 
             for (int i = 1; i <= graph.NumberOfVertices; ++i)
             {
-                Vertices.Add(new Vertex {Name = i.ToString()});
+                Vertices.Add(new Vertex {Id = i});
             }
 
             for (int i = 0; i < graph.NumberOfVertices; ++i)

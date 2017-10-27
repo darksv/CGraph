@@ -4,7 +4,6 @@ namespace CGraph.Core
 {
     public class Edge
     {
-        public string Name { get; set; }
         public Vertex A { get; }
         public Vertex B { get; }
         public int ZIndex => 0;

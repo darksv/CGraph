@@ -6,7 +6,7 @@ namespace CGraph.Core
     [ImplementPropertyChanged]
     public class Vertex
     {
-        public string Name { get; set; }
+        public int Id { get; set; }
         [AlsoNotifyFor(nameof(Center))]
         public Point Position { get; set; }
         public double Size { get; set; } = 10;

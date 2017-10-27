@@ -33,7 +33,7 @@
                             <ControlTemplate>
                                 <view:VertexView
                                     IsSelected="{Binding IsSelected}"
-                                    Label="{Binding Name}"
+                                    Label="{Binding Id}"
                                     ContextMenu="{StaticResource VertexContextMenu}"
                                     Tag="{Binding ElementName=LayoutRoot}"
                                     Cursor="Hand"
@@ -50,7 +50,6 @@
                           Y1="{Binding A.Position.Y}"
                           X2="{Binding B.Position.X}"
                           Y2="{Binding B.Position.Y}"
-                          ToolTip="{Binding Name}"
                           ContextMenu="{StaticResource EdgeContextMenu}" />
                 </DataTemplate>
             </ItemsControl.Resources>

@@ -36,6 +36,7 @@ namespace CGraph.View
         public VertexView()
         {
             InitializeComponent();
+            LayoutRoot.DataContext = this;
         }
     }
 }
