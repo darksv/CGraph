@@ -118,7 +118,9 @@ namespace CGraph.ViewModel
                 {
                     yield return new MatrixCellViewModel
                     {
-                        Value = graph[i, j]
+                        Value = graph[i, j],
+                        Row = i,
+                        Column = j
                     };
                 }
             }
