@@ -18,7 +18,7 @@ namespace CGraph.ViewModel
         public IEnumerable<MatrixCellViewModel> AdjacencyMatrix { get; private set; }
         public int NumberOfVertices { get; set; }
         public ICommand DeselectCommand => new RelayCommand(Deselect);
-        public ICommand SelectVertexCommand => new RelayCommand<Vertex>(SelectVertex);
+        public ICommand SelectCommand => new RelayCommand<Selectable>(Select);
         public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
 
@@ -30,34 +30,22 @@ namespace CGraph.ViewModel
             }
         }
 
-        private void SelectVertex(Vertex vertex)
+        private void Select(Selectable selectable)
         {
-            if (Keyboard.IsKeyDown(Key.LeftCtrl))
+            if (!Keyboard.IsKeyDown(Key.LeftCtrl))
             {
-                vertex.IsSelected = true;
-                return;
+                foreach (var vertex in Vertices)
+                {
+                    vertex.IsSelected = false;
+                }
+
+                foreach (var edge in Edges)
+                {
+                    edge.IsSelected = false;
+                }
             }
 
-            var previousVertex = Vertices.FirstOrDefault(x => x.IsSelected);
-            if (previousVertex == vertex)
-            {
-                return;
-            }
-
-            vertex.IsSelected = true;
-            if (previousVertex == null)
-            {
-                return;
-            }
-
-            previousVertex.IsSelected = false;
-
-            if (Edges.Any(e => e.A == previousVertex && e.B == vertex || e.B == previousVertex && e.A == vertex))
-            {
-                return;
-            }
-
-            Edges.Add(new Edge(previousVertex, vertex));
+            selectable.IsSelected = true;
         }
 
         private void DeleteVertex(Vertex vertex)

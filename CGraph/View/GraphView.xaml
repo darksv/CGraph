@@ -27,7 +27,7 @@
                 </ContextMenu>
 
                 <DataTemplate DataType="{x:Type core:Vertex}">
-                    <Button Command="{Binding DataContext.SelectVertexCommand, ElementName=LayoutRoot}"
+                    <Button Command="{Binding DataContext.SelectCommand, ElementName=LayoutRoot}"
                             CommandParameter="{Binding}">
                         <Button.Template>
                             <ControlTemplate>
@@ -45,13 +45,29 @@
                     </Button>
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type core:Edge}">
-                    <Line Stroke="#000000"
-                          StrokeThickness="0.5"
-                          X1="{Binding A.Position.X}"
-                          Y1="{Binding A.Position.Y}"
-                          X2="{Binding B.Position.X}"
-                          Y2="{Binding B.Position.Y}"
-                          ContextMenu="{StaticResource EdgeContextMenu}" />
+                    <Button Command="{Binding DataContext.SelectCommand, ElementName=LayoutRoot}"
+                            CommandParameter="{Binding}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Line
+                                    x:Name="Edge"
+                                    Stroke="#000000"
+                                    StrokeThickness="0.75"
+                                    X1="{Binding A.Position.X}"
+                                    Y1="{Binding A.Position.Y}"
+                                    X2="{Binding B.Position.X}"
+                                    Y2="{Binding B.Position.Y}"
+                                    ContextMenu="{StaticResource EdgeContextMenu}">
+                                </Line>
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter Property="Stroke" Value="#009000" TargetName="Edge" />
+                                        <Setter Property="StrokeThickness" Value="1.0" TargetName="Edge" />
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.Resources>
             <ItemsControl.ItemsSource>

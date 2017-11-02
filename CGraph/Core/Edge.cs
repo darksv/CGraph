@@ -1,8 +1,10 @@
 ﻿using System;
+using PropertyChanged;
 
 namespace CGraph.Core
 {
-    public class Edge
+    [ImplementPropertyChanged]
+    public class Edge : Selectable
     {
         public Vertex A { get; }
         public Vertex B { get; }
