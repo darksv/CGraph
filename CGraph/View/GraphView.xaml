@@ -36,6 +36,7 @@
                                     Label="{Binding Id}"
                                     ContextMenu="{StaticResource VertexContextMenu}"
                                     Tag="{Binding ElementName=LayoutRoot}"
+                                    Color="White"
                                     Cursor="Hand"
                                     Width="{Binding Size}"
                                     Height="{Binding Size}" />
