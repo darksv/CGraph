@@ -8,40 +8,87 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              d:DataContext="{d:DesignInstance viewModel:GraphViewModel}">
-    <ItemsControl ItemsSource="{Binding AdjacencyMatrix}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <UniformGrid Rows="{Binding NumberOfVertices}" Columns="{Binding NumberOfVertices}" />
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <ItemsControl.ItemTemplate>
-            <DataTemplate DataType="{x:Type viewModel:MatrixCellViewModel}">
-                <Label
-                    VerticalContentAlignment="Center"
-                    HorizontalContentAlignment="Center">
-                    <Label.Style>
-                        <Style TargetType="Label">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Value}" Value="True">
-                                    <Setter Property="Content" Value="1" />
-                                    <Setter Property="Foreground" Value="#FF000000" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Value}" Value="False">
-                                    <Setter Property="Content" Value="0" />
-                                    <Setter Property="Foreground" Value="#80000000" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Self}" Value="True">
-                                    <Setter Property="Content" Value="-" />
-                                    <Setter Property="Cursor" Value="Arrow" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Self}" Value="False">
-                                    <Setter Property="Cursor" Value="Hand" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Label.Style>
-                </Label>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <ItemsControl Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Vertices}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding Vertices.Count}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        FontWeight="Bold"
+                        Content="{Binding Id}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        
+        <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Vertices}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding Vertices.Count}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Label
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        FontWeight="Bold"
+                        Content="{Binding Id}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AdjacencyMatrix}"
+                      BorderThickness="1" BorderBrush="Black">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="{Binding NumberOfVertices}" Columns="{Binding NumberOfVertices}" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="{x:Type viewModel:MatrixCellViewModel}">
+                    <Label
+                        VerticalContentAlignment="Center"
+                        HorizontalContentAlignment="Center">
+                        <Label.Style>
+                            <Style TargetType="Label">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Value}" Value="True">
+                                        <Setter Property="Content" Value="1" />
+                                        <Setter Property="Foreground" Value="#FF000000" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Value}" Value="False">
+                                        <Setter Property="Content" Value="0" />
+                                        <Setter Property="Foreground" Value="#80000000" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Self}" Value="True">
+                                        <Setter Property="Content" Value="-" />
+                                        <Setter Property="Cursor" Value="Arrow" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Self}" Value="False">
+                                        <Setter Property="Cursor" Value="Hand" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Label.Style>
+                    </Label>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
 </UserControl>
