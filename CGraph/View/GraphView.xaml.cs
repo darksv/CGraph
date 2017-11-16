@@ -18,15 +18,15 @@ namespace CGraph.View
         }
 
         private bool _mouseDown = false;
-        private VertexView _vertex = null;
+        private Vertex _vertex = null;
         private Canvas _canvas = null;
+        private Vector _offset;
 
         private void OnMouseMove(object sender, MouseEventArgs args)
         {
             if (_mouseDown)
             {
-                var vertex = (Vertex) _vertex.DataContext;
-                vertex.Position = args.GetPosition(_canvas);
+                _vertex.Position = args.GetPosition(_canvas) - _offset;
             }
         }
 
@@ -48,9 +48,22 @@ namespace CGraph.View
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
         {
             var control = (DependencyObject) args.OriginalSource;
-            _vertex = FindParent<VertexView>(control);
+            var vertexControl = FindParent<VertexView>(control);
+            if (vertexControl == null)
+            {
+                return;
+            }
+
+            var relativePos = args.GetPosition(vertexControl);
+            _offset = new Vector(
+                relativePos.X - vertexControl.Width / 2,
+                relativePos.Y - vertexControl.Height / 2
+            );
+
+            _vertex = (Vertex) vertexControl.DataContext;
             _canvas = FindParent<Canvas>(control);
-            if (_canvas != null && _vertex != null)
+
+            if (_canvas != null)
             {
                 _mouseDown = true;
             }
