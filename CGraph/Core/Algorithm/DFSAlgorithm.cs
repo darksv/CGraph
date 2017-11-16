@@ -10,8 +10,8 @@ namespace CGraph.Core.Algorithm
 
         public void Execute(Core.Graph graph, int srcVertex)
         {
-            _stack.Push(srcVertex);
             _currentVertex = srcVertex - 1;
+            _stack.Push(_currentVertex);
             _verticesCount = graph.NumberOfVertices;
             while (_stack.Count != 0)
             {
