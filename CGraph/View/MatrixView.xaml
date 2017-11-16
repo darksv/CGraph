@@ -68,7 +68,8 @@
                 <DataTemplate DataType="{x:Type viewModel:MatrixCellViewModel}">
                     <Label
                         VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center">
+                        HorizontalContentAlignment="Center"
+                        Padding="0">
                         <Label.Style>
                             <Style TargetType="Label">
                                 <Style.Triggers>

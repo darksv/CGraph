@@ -17,8 +17,8 @@ namespace CGraph.ViewModel
         public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
         public IEnumerable<MatrixCellViewModel> AdjacencyMatrix { get; private set; }
         public int NumberOfVertices { get; set; }
-        public ICommand DeselectCommand => new RelayCommand(Deselect);
-        public ICommand SelectCommand => new RelayCommand<Selectable>(Select);
+        //public ICommand DeselectCommand => new RelayCommand(Deselect);
+        //public ICommand SelectCommand => new RelayCommand<Selectable>(Select);
         public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
 

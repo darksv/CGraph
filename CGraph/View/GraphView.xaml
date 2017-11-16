@@ -27,10 +27,10 @@
                 </ContextMenu>
 
                 <DataTemplate DataType="{x:Type core:Vertex}">
-                    <Button Command="{Binding DataContext.SelectCommand, ElementName=LayoutRoot}"
-                            CommandParameter="{Binding}">
-                        <Button.Template>
-                            <ControlTemplate>
+<!--                    <Button Command="{Binding DataContext.SelectCommand, ElementName=LayoutRoot}"-->
+<!--                            CommandParameter="{Binding}">-->
+<!--                        <Button.Template>-->
+<!--                            <ControlTemplate>-->
                                 <view:VertexView
                                     IsSelected="{Binding IsSelected}"
                                     Label="{Binding Id}"
@@ -40,15 +40,15 @@
                                     Cursor="Hand"
                                     Width="{Binding Size}"
                                     Height="{Binding Size}" />
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+<!--                            </ControlTemplate>-->
+<!--                        </Button.Template>-->
+<!--                    </Button>-->
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type core:Edge}">
-                    <Button Command="{Binding DataContext.SelectCommand, ElementName=LayoutRoot}"
-                            CommandParameter="{Binding}">
-                        <Button.Template>
-                            <ControlTemplate>
+<!--                    <Button Command="{Binding DataContext.SelectCommand, ElementName=LayoutRoot}"-->
+<!--                            CommandParameter="{Binding}">-->
+<!--                        <Button.Template>-->
+<!--                            <ControlTemplate>-->
                                 <Line
                                     x:Name="Edge"
                                     Stroke="#000000"
@@ -59,15 +59,15 @@
                                     Y2="{Binding B.Position.Y}"
                                     ContextMenu="{StaticResource EdgeContextMenu}">
                                 </Line>
-                                <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                        <Setter Property="Stroke" Value="#009000" TargetName="Edge" />
-                                        <Setter Property="StrokeThickness" Value="1.0" TargetName="Edge" />
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Button.Template>
-                    </Button>
+<!--                                <ControlTemplate.Triggers>-->
+<!--                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">-->
+<!--                                        <Setter Property="Stroke" Value="#009000" TargetName="Edge" />-->
+<!--                                        <Setter Property="StrokeThickness" Value="1.0" TargetName="Edge" />-->
+<!--                                    </DataTrigger>-->
+<!--                                </ControlTemplate.Triggers>-->
+<!--                            </ControlTemplate>-->
+<!--                        </Button.Template>-->
+<!--                    </Button>-->
                 </DataTemplate>
             </ItemsControl.Resources>
             <ItemsControl.ItemsSource>
