@@ -46,10 +46,13 @@ namespace CGraph.View
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs args)
         {
-            _mouseDown = true;
             var obj = (DependencyObject) args.OriginalSource;
             _vertex = FindParent<VertexView>(obj);
             _canvas = FindParent<Canvas>(obj);
+            if (_canvas != null)
+            {
+                _mouseDown = true;
+            }
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs args)
