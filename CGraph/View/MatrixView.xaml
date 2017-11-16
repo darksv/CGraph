@@ -18,6 +18,8 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0"> </Label>
         
         <ItemsControl Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Vertices}">
             <ItemsControl.ItemsPanel>
@@ -28,7 +30,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Label
-                        VerticalContentAlignment="Center"
+                        Padding="0,0,0,2.5"
                         HorizontalContentAlignment="Center"
                         FontWeight="Bold"
                         Content="{Binding Id}" />
@@ -45,8 +47,9 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Label
+                        Padding="0,0,5,0"
                         VerticalContentAlignment="Center"
-                        HorizontalContentAlignment="Center"
+                        HorizontalContentAlignment="Right"
                         FontWeight="Bold"
                         Content="{Binding Id}" />
                 </DataTemplate>
@@ -54,7 +57,8 @@
         </ItemsControl>
 
         <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding AdjacencyMatrix}"
-                      BorderThickness="1" BorderBrush="Black">
+                      BorderThickness="1" BorderBrush="Black"
+                      Height="{Binding RelativeSource={RelativeSource Self}, Path=ActualWidth}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Rows="{Binding NumberOfVertices}" Columns="{Binding NumberOfVertices}" />
