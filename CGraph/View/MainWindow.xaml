@@ -53,6 +53,24 @@
             <Separator />
             <TextBlock Text="{Binding Graph.Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
             <Separator />
+            <TextBlock Text="Ciąg przeszukiwań:" />
+            <Label Padding="0">
+                <Label.Content>
+                    <ItemsControl ItemsSource="{Binding SearchSequence}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Padding="0,0,5,0" Text="{Binding}" />
+                            </ItemContainerTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Label.Content>
+            </Label>
+            <Separator />
             <TextBlock
                 Text="{Binding Path=IsConnected, StringFormat='{}Spójny: {0}', Mode=OneWay, Converter={StaticResource BooleanToTextConverter}}" />
         </StatusBar>

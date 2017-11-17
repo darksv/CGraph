@@ -1,4 +1,6 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Input;
 using CGraph.Core;
 using CGraph.Core.Algorithm;
 using CGraph.Core.Generator;
@@ -16,6 +18,7 @@ namespace CGraph.ViewModel
         public bool IsOnCircleSelected { get; set; }
         public bool IsGenerating { get; set; } = false;
         public bool IsConnected { get; set; } = false;
+        public IEnumerable<int> SearchSequence { get; set; }
 
         public MainViewModel()
         {
@@ -45,6 +48,7 @@ namespace CGraph.ViewModel
 
             Graph.Show(graph, GetSpreadMode());
             IsConnected = new DfsConnectivityChecker().IsConnected(graph);
+            SearchSequence = new DfsAlgorithm().Execute(graph, 0).Select(x => x + 1);
         }
 
         private SpreadMode GetSpreadMode()
