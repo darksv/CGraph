@@ -95,10 +95,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\BooleanToTextConverter.cs" />
+    <Compile Include="Core\Algorithm\DfsConnectivityChecker.cs" />
+    <Compile Include="Core\IConnectivityChecker.cs" />
+    <Compile Include="Core\ISearchAlgorithm.cs" />
     <Compile Include="Core\Selectable.cs" />
     <Compile Include="Core\Spreader\CircleVertexSpreader.cs" />
     <Compile Include="Core\Generator\SimpleGraphGenerator.cs" />
-    <Compile Include="Core\Algorithm\DFSAlgorithm.cs" />
+    <Compile Include="Core\Algorithm\DfsAlgorithm.cs" />
     <Compile Include="Core\Graph.cs" />
     <Compile Include="Core\Spreader\GridVertexSpreader.cs" />
     <Compile Include="ViewModel\MatrixCellViewModel.cs" />

@@ -44,10 +44,7 @@ namespace CGraph.ViewModel
             }
 
             Graph.Show(graph, GetSpreadMode());
-
-            var algorithm = new DfsAlgorithm();
-            algorithm.Execute(graph, 1);
-            IsConnected = algorithm.IsConnected();
+            IsConnected = new DfsConnectivityChecker().IsConnected(graph);
         }
 
         private SpreadMode GetSpreadMode()

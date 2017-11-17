@@ -2,37 +2,33 @@
 
 namespace CGraph.Core.Algorithm
 {
-    class DfsAlgorithm
+    class DfsAlgorithm : ISearchAlgorithm
     {
-        private readonly Stack<int> _stack = new Stack<int>();
-        private readonly HashSet<int> _visited = new HashSet<int>();
-        private int _currentVertex, _verticesCount;
-
-        public void Execute(Core.Graph graph, int srcVertex)
+        public IEnumerable<int> Execute(Graph graph, int startVertex)
         {
-            _currentVertex = srcVertex - 1;
-            _stack.Push(_currentVertex);
-            _verticesCount = graph.NumberOfVertices;
-            while (_stack.Count != 0)
+            var visited = new HashSet<int>();
+            var remaining = new Stack<int>();
+            remaining.Push(startVertex);
+
+            while (remaining.Count > 0)
             {
-                _currentVertex = _stack.Pop();
-                if (_visited.Contains(_currentVertex))
+                var currentVertex = remaining.Pop();
+                if (visited.Contains(currentVertex))
+                {
                     continue;
-                _visited.Add(_currentVertex);
+                }
+
+                visited.Add(currentVertex);
+                yield return currentVertex;
 
                 for (int j = 0; j < graph.NumberOfVertices; j++)
                 {
-                    if (graph[_currentVertex, j])
+                    if (graph[currentVertex, j])
                     {
-                        _stack.Push(j);
+                        remaining.Push(j);
                     }
                 }
             }
-        }
-
-        public bool IsConnected()
-        {
-            return (_visited.Count == _verticesCount) ? true : false;
         }
     }
 }
