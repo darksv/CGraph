@@ -21,6 +21,13 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Header="_Plik">
+                <MenuItem Header="Utwórz raport" />
+                <Separator />
+                <MenuItem Header="Zakończ" />
+            </MenuItem>
+        </Menu>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
