@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CGraph.Core;
 using CGraph.Core.Algorithm;
 using CGraph.Core.Generator;
@@ -35,6 +37,25 @@ namespace CGraph.ViewModel
         }
 
         private void Generate()
+        {
+            if (GraphCreator.ConnectedOnly)
+            {
+                do
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        GenerateAny();
+                        GraphCreator.ProbabilityOfEdgeExistence += 0.001;
+                    }, DispatcherPriority.Background);
+                } while (!IsConnected);
+            }
+            else
+            {
+                GenerateAny();
+            }
+        }
+
+        private void GenerateAny()
         {
             var numberOfVertices = GraphCreator.NumberOfVertices;
             var probabilityOfEdgeExistence = GraphCreator.ProbabilityOfEdgeExistence;
