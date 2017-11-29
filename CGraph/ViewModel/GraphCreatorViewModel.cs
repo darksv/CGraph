@@ -10,6 +10,7 @@ namespace CGraph.ViewModel
     {
         public int NumberOfVertices { get; set; } = 10;
         public double ProbabilityOfEdgeExistence { get; set; } = 0.35;
+        public bool ConnectedOnly { get; set; } = true;
         public ICommand CreateCommand { get; }
         public bool CanExecute { get; set; } = true;
         public GraphCreatorViewModel(Action onCreate)

@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.Resources>
             <Style TargetType="Label">
@@ -41,7 +42,10 @@
         <xctk:DoubleUpDown Grid.Column="1" Grid.Row="1" Minimum="0" Maximum="1" Increment="0.005" FormatString="F3"
                            Value="{Binding ProbabilityOfEdgeExistence}" />
 
-        <Button Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Command="{Binding CreateCommand}"
+        <Label Grid.Column="0" Grid.Row="2">Tylko spójne:</Label>
+        <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding ConnectedOnly}" HorizontalAlignment="Center" VerticalContentAlignment="Center" />
+        
+        <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Command="{Binding CreateCommand}"
                 IsEnabled="{Binding CanExecute}">
             Generuj
         </Button>
