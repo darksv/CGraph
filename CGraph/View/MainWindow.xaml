@@ -44,7 +44,7 @@
                     <GroupBox.Style>
                         <Style TargetType="GroupBox">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Graph.Vertices.Count}" Value="0">
+                                <DataTrigger Binding="{Binding Graph.Vertices.Length}" Value="0">
                                     <Setter Property="Visibility" Value="Collapsed" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -56,9 +56,9 @@
             <view:GraphView Grid.Column="1" DataContext="{Binding Graph}" />
         </Grid>
         <StatusBar Grid.Row="2">
-            <TextBlock Text="{Binding Graph.Vertices.Count, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
+            <TextBlock Text="{Binding Graph.Vertices.Length, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />
             <Separator />
-            <TextBlock Text="{Binding Graph.Edges.Count, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
+            <TextBlock Text="{Binding Graph.Edges.Length, StringFormat={}Krawędzie: {0}, Mode=OneWay}" />
             <Separator />
             <TextBlock Text="Ciąg przeszukiwań:" />
             <Label Padding="0">

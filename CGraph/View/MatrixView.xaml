@@ -24,7 +24,7 @@
         <ItemsControl Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Vertices}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Columns="{Binding Vertices.Count}" />
+                    <UniformGrid Columns="{Binding Vertices.Length}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -41,7 +41,7 @@
         <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Vertices}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="{Binding Vertices.Count}" />
+                    <UniformGrid Rows="{Binding Vertices.Length}" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>

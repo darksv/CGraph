@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -13,12 +12,12 @@ namespace CGraph.ViewModel
     [ImplementPropertyChanged]
     public class GraphViewModel
     {
-        public ObservableCollection<Vertex> Vertices { get; } = new ObservableCollection<Vertex>();
-        public ObservableCollection<Edge> Edges { get; } = new ObservableCollection<Edge>();
+        public Vertex[] Vertices { get; private set; }
+        public Edge[] Edges { get; private set; }
         public IEnumerable<MatrixCellViewModel> AdjacencyMatrix { get; private set; }
         public int NumberOfVertices { get; set; }
-        //public ICommand DeselectCommand => new RelayCommand(Deselect);
-        //public ICommand SelectCommand => new RelayCommand<Selectable>(Select);
+        public ICommand DeselectCommand => new RelayCommand(Deselect);
+        public ICommand SelectCommand => new RelayCommand<Selectable>(Select);
         public ICommand DeleteVertexCommand => new RelayCommand<Vertex>(DeleteVertex);
         public ICommand DeleteEdgeCommand => new RelayCommand<Edge>(DeleteEdge);
 
@@ -50,42 +49,37 @@ namespace CGraph.ViewModel
 
         private void DeleteVertex(Vertex vertex)
         {
-            if (!Vertices.Remove(vertex))
-            {
-                return;
-            }
-
-            var incidentEdges = Edges.Where(x => x.A == vertex || x.B == vertex)
-                .ToArray();
-
-            foreach (var incidentEdge in incidentEdges)
-            {
-                Edges.Remove(incidentEdge);
-            }
+            Vertices = Vertices.Where(v => !ReferenceEquals(v, vertex)).ToArray();
+            Edges = Edges.Where(e => e.A != vertex && e.B != vertex).ToArray();
         }
 
         private void DeleteEdge(Edge edge)
         {
-            Edges.Remove(edge);
+            Edges = Edges.Where(x => !ReferenceEquals(x, edge)).ToArray();
         }
 
         private void CreateFromStructure(Graph graph)
         {
-            Vertices.Clear();
-            Edges.Clear();
+            Vertices = CreateVertices(graph).ToArray();
+            Edges = CreateEdges(graph).ToArray();
+        }
 
-            for (int i = 1; i <= graph.NumberOfVertices; ++i)
-            {
-                Vertices.Add(new Vertex { Id = i });
-            }
+        private static IEnumerable<Vertex> CreateVertices(Graph graph)
+        {
+            return Enumerable
+                .Range(1, graph.NumberOfVertices)
+                .Select(x => new Vertex {Id = x});
+        }
 
+        private IEnumerable<Edge> CreateEdges(Graph graph)
+        {
             for (int i = 0; i < graph.NumberOfVertices; ++i)
             {
                 for (int j = i + 1; j < graph.NumberOfVertices; ++j)
                 {
                     if (graph[i, j])
                     {
-                        Edges.Add(new Edge(Vertices[i], Vertices[j]));
+                        yield return new Edge(Vertices[i], Vertices[j]);
                     }
                 }
             }
