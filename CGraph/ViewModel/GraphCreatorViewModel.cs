@@ -13,13 +13,21 @@ namespace CGraph.ViewModel
         public bool ConnectedOnly { get; set; } = true;
         public ICommand CreateCommand { get; }
         public bool CanExecute { get; set; } = true;
-        public GraphCreatorViewModel(Action onCreate)
+        public GraphCreatorViewModel(Action onCreate, Action onCancel)
         {
             CreateCommand = new RelayCommand(() =>
             {
-                CanExecute = false;
-                onCreate();
-                CanExecute = true;
+                if (CanExecute)
+                {
+                    CanExecute = false;
+                    onCreate();
+                    CanExecute = true;
+                }
+                else
+                {
+                    onCancel();
+                    CanExecute = true;
+                }
             });
         }
     }

@@ -14,6 +14,7 @@ namespace CGraph.ViewModel
     [ImplementPropertyChanged]
     public class MainViewModel
     {
+        private bool _isGenerating = false;
         public GraphCreatorViewModel GraphCreator { get; }
         public GraphViewModel Graph { get; } = new GraphViewModel();
         public bool IsRandomlySelected { get; set; } = true;
@@ -24,20 +25,17 @@ namespace CGraph.ViewModel
 
         public MainViewModel()
         {
-            GraphCreator = new GraphCreatorViewModel(Generate);
+            GraphCreator = new GraphCreatorViewModel(StartGenerating, StopGenerating);
             SpreadVerticesCommand = new RelayCommand(() => Graph.Spread(GetSpreadMode()));
         }
 
         public ICommand SpreadVerticesCommand { get; }
-        public ICommand GenerateCommand => new RelayCommand(Generate, CanGenerate);
-
-        private bool CanGenerate()
+        public ICommand GenerateCommand => new RelayCommand(StartGenerating);
+        
+        private void StartGenerating()
         {
-            return !IsGenerating;
-        }
+            _isGenerating = true;
 
-        private void Generate()
-        {
             if (GraphCreator.ConnectedOnly)
             {
                 do
@@ -47,12 +45,19 @@ namespace CGraph.ViewModel
                         GenerateAny();
                         GraphCreator.ProbabilityOfEdgeExistence += 0.001;
                     }, DispatcherPriority.Background);
-                } while (!IsConnected);
+                } while (!IsConnected && _isGenerating);
             }
             else
             {
                 GenerateAny();
             }
+
+            _isGenerating = false;
+        }
+
+        private void StopGenerating()
+        {
+            _isGenerating = false;
         }
 
         private void GenerateAny()

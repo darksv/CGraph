@@ -45,9 +45,19 @@
         <Label Grid.Column="0" Grid.Row="2">Tylko spójne:</Label>
         <CheckBox Grid.Column="1" Grid.Row="2" IsChecked="{Binding ConnectedOnly}" HorizontalAlignment="Center" VerticalContentAlignment="Center" />
         
-        <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Command="{Binding CreateCommand}"
-                IsEnabled="{Binding CanExecute}">
-            Generuj
+        <Button Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Command="{Binding CreateCommand}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding CanExecute}" Value="False">
+                            <Setter Property="Content" Value="Zatrzymaj" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding CanExecute}" Value="True">
+                            <Setter Property="Content" Value="Generuj" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
         </Button>
     </Grid>
 </UserControl>
