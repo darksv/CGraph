@@ -9,6 +9,9 @@
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              x:Name="LayoutRoot">
+    <UserControl.Resources>
+        <converter:ControlPointConverter x:Key="ControlPointConverter" />
+    </UserControl.Resources>
     <Viewbox Stretch="Uniform">
         <ItemsControl>
             <ItemsControl.Resources>
@@ -38,15 +41,26 @@
                         Height="{Binding Size}" />
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type core:Edge}">
-                    <Line
+                    <Path
                         x:Name="Edge"
                         Stroke="#000000"
                         StrokeThickness="0.75"
-                        X1="{Binding A.Position.X}"
-                        Y1="{Binding A.Position.Y}"
-                        X2="{Binding B.Position.X}"
-                        Y2="{Binding B.Position.Y}"
-                        ContextMenu="{StaticResource EdgeContextMenu}" />
+                        ContextMenu="{StaticResource EdgeContextMenu}">
+                        <Path.Data>
+                            <PathGeometry>
+                                <PathFigure StartPoint="{Binding A.Position}">
+                                    <QuadraticBezierSegment Point2="{Binding B.Position}">
+                                        <QuadraticBezierSegment.Point1>
+                                            <MultiBinding Converter="{StaticResource ControlPointConverter}">
+                                                <Binding Path="A.Position" />
+                                                <Binding Path="B.Position" />
+                                            </MultiBinding>
+                                        </QuadraticBezierSegment.Point1>
+                                    </QuadraticBezierSegment>
+                                </PathFigure>
+                            </PathGeometry>
+                        </Path.Data>
+                    </Path>
                 </DataTemplate>
             </ItemsControl.Resources>
             <ItemsControl.ItemsSource>

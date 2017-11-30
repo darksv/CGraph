@@ -95,6 +95,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\BooleanToTextConverter.cs" />
+    <Compile Include="Converter\ControlPointConverter.cs" />
     <Compile Include="Core\Algorithm\DfsConnectivityChecker.cs" />
     <Compile Include="Core\IConnectivityChecker.cs" />
     <Compile Include="Core\ISearchAlgorithm.cs" />
