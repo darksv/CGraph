@@ -23,7 +23,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             <MenuItem Header="_Plik">
-                <MenuItem Header="Utwórz raport" />
+                <MenuItem Header="Utwórz raport" Command="{Binding CreateReportCommand}" />
                 <Separator />
                 <MenuItem Header="Zakończ" />
             </MenuItem>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -6,7 +7,9 @@ using System.Windows.Threading;
 using CGraph.Core;
 using CGraph.Core.Algorithm;
 using CGraph.Core.Generator;
+using CGraph.Report;
 using CGraph.Util;
+using Microsoft.Win32;
 using PropertyChanged;
 
 namespace CGraph.ViewModel
@@ -15,6 +18,7 @@ namespace CGraph.ViewModel
     public class MainViewModel
     {
         private bool _isGenerating = false;
+        private Graph _graph = null;
         public GraphCreatorViewModel GraphCreator { get; }
         public GraphViewModel Graph { get; } = new GraphViewModel();
         public bool IsRandomlySelected { get; set; } = true;
@@ -22,16 +26,47 @@ namespace CGraph.ViewModel
         public bool IsGenerating { get; set; } = false;
         public bool IsConnected { get; set; } = false;
         public IEnumerable<int> SearchSequence { get; set; }
+        public ICommand CreateReportCommand { get; set; }
 
         public MainViewModel()
         {
             GraphCreator = new GraphCreatorViewModel(StartGenerating, StopGenerating);
             SpreadVerticesCommand = new RelayCommand(() => Graph.Spread(GetSpreadMode()));
+            CreateReportCommand = new RelayCommand(CreateReport);
         }
 
         public ICommand SpreadVerticesCommand { get; }
         public ICommand GenerateCommand => new RelayCommand(StartGenerating);
-        
+
+        public void CreateReport()
+        {
+            if (_graph == null)
+            {
+                return;
+            }
+
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Plik tekstowy|*.txt"
+            };
+
+            if (dialog.ShowDialog() != true)
+            {
+                return;
+            }
+
+            using (var os = new FileStream(dialog.FileName, FileMode.OpenOrCreate))
+            {
+                os.Position = 0;
+                os.SetLength(0);
+                using (var fsw = new StreamWriter(os))
+                {
+                    var reportGenerator = new TextReportGenerator(_graph);
+                    reportGenerator.Generate(fsw);
+                }
+            }
+        }
+
         private void StartGenerating()
         {
             _isGenerating = true;
@@ -66,15 +101,15 @@ namespace CGraph.ViewModel
             var probabilityOfEdgeExistence = GraphCreator.ProbabilityOfEdgeExistence;
 
             var generator = new ConnectedGraphGenerator(numberOfVertices, probabilityOfEdgeExistence);
-            var graph = generator.Generate();
-            if (graph == null)
+            _graph = generator.Generate();
+            if (_graph == null)
             {
                 return;
             }
 
-            Graph.Show(graph, GetSpreadMode());
-            IsConnected = new DfsConnectivityChecker().IsConnected(graph);
-            SearchSequence = new DfsAlgorithm().Execute(graph, 0).Select(x => x + 1);
+            Graph.Show(_graph, GetSpreadMode());
+            IsConnected = new DfsConnectivityChecker().IsConnected(_graph);
+            SearchSequence = new DfsAlgorithm().Execute(_graph, 0).Select(x => x + 1);
         }
 
         private SpreadMode GetSpreadMode()

@@ -104,6 +104,8 @@
     <Compile Include="Core\Algorithm\DfsAlgorithm.cs" />
     <Compile Include="Core\Graph.cs" />
     <Compile Include="Core\Spreader\GridVertexSpreader.cs" />
+    <Compile Include="Report\IReportGenerator.cs" />
+    <Compile Include="Report\TextReportGenerator.cs" />
     <Compile Include="ViewModel\MatrixCellViewModel.cs" />
     <Compile Include="View\GraphCreationParameters.xaml.cs">
       <DependentUpon>GraphCreationParameters.xaml</DependentUpon>
