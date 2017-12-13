@@ -49,7 +49,7 @@ namespace CGraph.View
             self.BackgroundBrush = new SolidColorBrush(self.Color);
 
             var color = self.Color;
-            var intensity = color.R * 0.299 + color.G * 0.587 + color.B * 0.114;
+            var intensity = (color.R * 0.299 + color.G * 0.587 + color.B * 0.114) / 255;
             var textColor = intensity < 0.5 ? Colors.White : Colors.Black;
 
             self.TextBrush = new SolidColorBrush(textColor);
