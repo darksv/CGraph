@@ -97,8 +97,10 @@
     <Compile Include="Converter\BooleanToTextConverter.cs" />
     <Compile Include="Converter\ControlPointConverter.cs" />
     <Compile Include="Core\Algorithm\DfsConnectivityChecker.cs" />
+    <Compile Include="Core\Algorithm\GreedyVertexColoringAlgorithm.cs" />
     <Compile Include="Core\IConnectivityChecker.cs" />
     <Compile Include="Core\ISearchAlgorithm.cs" />
+    <Compile Include="Core\IVertexColoringAlgorithm.cs" />
     <Compile Include="Core\Selectable.cs" />
     <Compile Include="Core\Spreader\CircleVertexSpreader.cs" />
     <Compile Include="Core\Generator\SimpleGraphGenerator.cs" />
@@ -107,6 +109,7 @@
     <Compile Include="Core\Spreader\GridVertexSpreader.cs" />
     <Compile Include="Report\IReportGenerator.cs" />
     <Compile Include="Report\TextReportGenerator.cs" />
+    <Compile Include="Core\Colors.cs" />
     <Compile Include="ViewModel\MatrixCellViewModel.cs" />
     <Compile Include="View\GraphCreationParameters.xaml.cs">
       <DependentUpon>GraphCreationParameters.xaml</DependentUpon>

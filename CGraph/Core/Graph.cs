@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CGraph.Core
 {
@@ -31,6 +33,11 @@ namespace CGraph.Core
                     }
                 }
             }
+        }
+
+        public IEnumerable<int> GetNeighboursOf(int vertex)
+        {
+            return Enumerable.Range(0, NumberOfVertices).Where(i => this[vertex, i]);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -11,6 +12,7 @@ using CGraph.Report;
 using CGraph.Util;
 using Microsoft.Win32;
 using PropertyChanged;
+using DistinctColors = CGraph.Core.Colors;
 
 namespace CGraph.ViewModel
 {
@@ -110,6 +112,17 @@ namespace CGraph.ViewModel
             Graph.Show(_graph, GetSpreadMode());
             IsConnected = new DfsConnectivityChecker().IsConnected(_graph);
             SearchSequence = new DfsAlgorithm().Execute(_graph, 0).Select(x => x + 1);
+
+            if (!IsConnected)
+            {
+                return;
+            }
+
+            var colors = DistinctColors.DistinctColors.OrderBy(x => Guid.NewGuid()).Take(numberOfVertices).ToArray();
+            foreach (var (vertex, color) in new GreedyVertexColoringAlgorithm().Execute(_graph))
+            {
+                Graph.Vertices[vertex].Color = colors[color];
+            }
         }
 
         private SpreadMode GetSpreadMode()
