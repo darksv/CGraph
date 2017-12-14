@@ -13,6 +13,6 @@ namespace CGraph.Core
         public double Size { get; set; } = 10;
         public Point Center => Position - new Vector(Size / 2, Size / 2);
         public int ZIndex => 1;
-        public Color Color { get; set; } = Colors.White;
+        public Color Color { get; set; } = System.Windows.Media.Colors.White;
     }
 }

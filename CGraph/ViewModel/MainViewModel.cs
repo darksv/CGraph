@@ -80,7 +80,7 @@ namespace CGraph.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         GenerateAny();
-                        GraphCreator.ProbabilityOfEdgeExistence += 0.001;
+                        GraphCreator.ProbabilityOfEdgeExistence = Math.Min(GraphCreator.ProbabilityOfEdgeExistence, 1.0);
                     }, DispatcherPriority.Background);
                 } while (!IsConnected && _isGenerating);
             }
