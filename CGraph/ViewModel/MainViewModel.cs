@@ -49,7 +49,7 @@ namespace CGraph.ViewModel
 
             var dialog = new SaveFileDialog
             {
-                Filter = "Plik tekstowy|*.txt"
+                Filter = "Plik tekstowy|*.txt|Plik PDF|*.pdf"
             };
 
             if (dialog.ShowDialog() != true)
@@ -57,15 +57,22 @@ namespace CGraph.ViewModel
                 return;
             }
 
-            using (var os = new FileStream(dialog.FileName, FileMode.OpenOrCreate))
+            IReportCreator reportCreator = null;
+            switch (Path.GetExtension(dialog.FileName).ToLower())
             {
-                os.Position = 0;
-                os.SetLength(0);
-                using (var fsw = new StreamWriter(os))
-                {
-                    var reportGenerator = new TextReportGenerator(_graph);
-                    reportGenerator.Generate(fsw);
-                }
+                case ".pdf":
+                    reportCreator = new PdfReportCreator(_graph, new DfsAlgorithm());
+                    break;
+                default:
+                    reportCreator = new TextReportCreator(_graph, new DfsAlgorithm());
+                    break;
+            }
+
+            using (var outputStream = new FileStream(dialog.FileName, FileMode.OpenOrCreate))
+            {
+                outputStream.Position = 0;
+                outputStream.SetLength(0);
+                reportCreator.Create(outputStream);
             }
         }
 
@@ -80,7 +87,8 @@ namespace CGraph.ViewModel
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         GenerateAny();
-                        GraphCreator.ProbabilityOfEdgeExistence = Math.Min(GraphCreator.ProbabilityOfEdgeExistence, 1.0);
+                        GraphCreator.ProbabilityOfEdgeExistence =
+                            Math.Min(GraphCreator.ProbabilityOfEdgeExistence + 0.001, 1.0);
                     }, DispatcherPriority.Background);
                 } while (!IsConnected && _isGenerating);
             }
