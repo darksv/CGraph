@@ -9,7 +9,6 @@
         mc:Ignorable="d"
         Title="Graf" Width="850"
         SizeToContent="Height"
-        d:DataContext="{d:DesignInstance {x:Type viewModel:MainViewModel}}"
         x:Name="LayoutRoot"
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -53,7 +52,7 @@
                     <view:MatrixView Margin="5" DataContext="{Binding Graph}" />
                 </GroupBox>
             </StackPanel>
-            <view:GraphView Grid.Column="1" DataContext="{Binding Graph}" />
+            <view:GraphView x:Name="GraphView" Grid.Column="1" DataContext="{Binding Graph}" />
         </Grid>
         <StatusBar Grid.Row="2">
             <TextBlock Text="{Binding Graph.Vertices.Length, StringFormat={}Wierzchołki: {0}, Mode=OneWay}" />

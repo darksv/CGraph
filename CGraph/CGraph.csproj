@@ -70,21 +70,6 @@
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MigraDoc.DocumentObjectModel-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-WPF.1.32.2608.0\lib\net20\MigraDoc.DocumentObjectModel-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="MigraDoc.Rendering-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-WPF.1.32.2608.0\lib\net20\MigraDoc.Rendering-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="MigraDoc.RtfRendering-WPF, Version=1.32.3885.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-WPF.1.32.2608.0\lib\net20\MigraDoc.RtfRendering-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-WPF.1.32.2608.0\lib\net20\PdfSharp-WPF.dll</HintPath>
-    </Reference>
-    <Reference Include="PdfSharp.Charting-WPF, Version=1.32.2608.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\PDFsharp-MigraDoc-WPF.1.32.2608.0\lib\net20\PdfSharp.Charting-WPF.dll</HintPath>
-    </Reference>
     <Reference Include="PropertyChanged, Version=1.53.0.0, Culture=neutral, PublicKeyToken=ee3ee20bcf148ddd, processorArchitecture=MSIL">
       <HintPath>..\packages\PropertyChanged.Fody.1.53.0\lib\netstandard10\PropertyChanged.dll</HintPath>
       <Private>False</Private>
@@ -115,6 +100,7 @@
     <Compile Include="Core\Algorithm\DfsConnectivityChecker.cs" />
     <Compile Include="Core\Algorithm\GreedyVertexColoringAlgorithm.cs" />
     <Compile Include="Core\IConnectivityChecker.cs" />
+    <Compile Include="Core\IGraphImageProvider.cs" />
     <Compile Include="Core\ISearchAlgorithm.cs" />
     <Compile Include="Core\IVertexColoringAlgorithm.cs" />
     <Compile Include="Core\Selectable.cs" />
@@ -247,6 +233,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\font-awesome_4-7-0_minus_256_0_000000_none.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MigraDoc\MigraDoc\src\MigraDoc.DocumentObjectModel-wpf\MigraDoc.DocumentObjectModel-wpf.csproj">
+      <Project>{769E6587-72F9-475C-9422-D43ACD4C7AC1}</Project>
+      <Name>MigraDoc.DocumentObjectModel-wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MigraDoc\MigraDoc\src\MigraDoc.Rendering-wpf\MigraDoc.Rendering-wpf.csproj">
+      <Project>{497784da-4fdd-43e5-bc4e-6702c8f1aee0}</Project>
+      <Name>MigraDoc.Rendering-wpf</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets" Condition="Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" />

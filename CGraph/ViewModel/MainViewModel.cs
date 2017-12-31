@@ -21,6 +21,7 @@ namespace CGraph.ViewModel
     {
         private bool _isGenerating = false;
         private Graph _graph = null;
+        private IGraphImageProvider _graphImageProvider;
         public GraphCreatorViewModel GraphCreator { get; }
         public GraphViewModel Graph { get; } = new GraphViewModel();
         public bool IsRandomlySelected { get; set; } = true;
@@ -30,11 +31,12 @@ namespace CGraph.ViewModel
         public IEnumerable<int> SearchSequence { get; set; }
         public ICommand CreateReportCommand { get; set; }
 
-        public MainViewModel()
+        public MainViewModel(IGraphImageProvider graphImageProvider)
         {
             GraphCreator = new GraphCreatorViewModel(StartGenerating, StopGenerating);
             SpreadVerticesCommand = new RelayCommand(() => Graph.Spread(GetSpreadMode()));
             CreateReportCommand = new RelayCommand(CreateReport);
+            _graphImageProvider = graphImageProvider;
         }
 
         public ICommand SpreadVerticesCommand { get; }
@@ -61,7 +63,7 @@ namespace CGraph.ViewModel
             switch (Path.GetExtension(dialog.FileName).ToLower())
             {
                 case ".pdf":
-                    reportCreator = new PdfReportCreator(_graph, new DfsAlgorithm());
+                    reportCreator = new PdfReportCreator(_graph, new DfsAlgorithm(), _graphImageProvider);
                     break;
                 default:
                     reportCreator = new TextReportCreator(_graph, new DfsAlgorithm());

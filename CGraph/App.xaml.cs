@@ -1,16 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using CGraph.View;
+using CGraph.ViewModel;
 
 namespace CGraph
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            var window = new MainWindow();
+            var viewModel = new MainViewModel(window);
+            window.DataContext = viewModel;
+            MainWindow = window;
+        }
+
+        protected override void OnStartup(StartupEventArgs args)
+        {
+            base.OnStartup(args);
+            MainWindow?.ShowDialog();
+        }
     }
 }

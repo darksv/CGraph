@@ -1,10 +1,13 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System;
 using CGraph.Core;
 using CGraph.Core.Algorithm;
+using System.IO;
+using System.Linq;
+using System.Windows.Media.Imaging;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
+using Table = MigraDoc.DocumentObjectModel.Tables.Table;
 
 namespace CGraph.Report
 {
@@ -12,14 +15,24 @@ namespace CGraph.Report
     {
         private readonly Graph _graph;
         private readonly ISearchAlgorithm _searchAlgorithm;
+        private readonly IGraphImageProvider _graphImageProvider;
 
-        public PdfReportCreator(Graph graph, ISearchAlgorithm searchAlgorithm)
+        public PdfReportCreator(Graph graph, ISearchAlgorithm searchAlgorithm, IGraphImageProvider graphImageProvider)
         {
             _graph = graph;
             _searchAlgorithm = searchAlgorithm;
+            _graphImageProvider = graphImageProvider;
         }
 
         public void Create(Stream outputStream)
+        {
+            var renderer = new PdfDocumentRenderer(true);
+            renderer.Document = CreateDocument();
+            renderer.RenderDocument();
+            renderer.Save(outputStream, false);
+        }
+
+        private Document CreateDocument()
         {
             var document = new Document();
             DefineStyles(document);
@@ -29,27 +42,51 @@ namespace CGraph.Report
             header.Format.Font.Size = 24;
             header.Format.Alignment = ParagraphAlignment.Right;
 
-            foreach (var name in new[] {})
+            foreach (var name in new[] {""})
             {
                 var p = section.AddParagraph(name);
                 p.Format.Alignment = ParagraphAlignment.Right;
             }
 
+            section.AddImage(CreateImage());
+
             header = section.AddParagraph("Macierz incydencji:");
             header.Format.Font.Size = 18;
+            section.Add(BuildIncidencyMatrix());
 
-            var numberOfVertices = _graph.NumberOfVertices;
+            header = section.AddParagraph("Przeszukiwanie:");
+            header.Format.Font.Size = 18;
+            section.AddParagraph(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
 
-            var table = section.AddTable();
-            table.Columns = new Columns(
-                Enumerable
-                    .Repeat(0, numberOfVertices + 1)
-                    .Select(_ => new Unit(20.0, UnitType.Point))
-                    .ToArray()
-            );
-            table.Rows = new Rows
+            return document;
+        }
+
+        private string CreateImage()
+        {
+            using (var stream = new MemoryStream())
             {
-                Height = new Unit(20, UnitType.Point)
+                BitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create((BitmapSource) _graphImageProvider.Capture()));
+                encoder.Save(stream);
+                return "base64:" + Convert.ToBase64String(stream.ToArray());
+            }
+        }
+
+        private Table BuildIncidencyMatrix()
+        {
+            var numberOfVertices = _graph.NumberOfVertices;
+            var table = new Table
+            {
+                Columns = new Columns(
+                    Enumerable
+                        .Repeat(0, numberOfVertices + 1)
+                        .Select(_ => new Unit(20.0, UnitType.Point))
+                        .ToArray()
+                ),
+                Rows = new Rows
+                {
+                    Height = new Unit(20, UnitType.Point)
+                }
             };
 
             var headerRow = table.AddRow();
@@ -75,19 +112,9 @@ namespace CGraph.Report
                 }
             }
 
-            header = section.AddParagraph("Przeszukiwanie:");
-            header.Format.Font.Size = 18;
-
-            section.AddParagraph(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
-
-            var renderer = new PdfDocumentRenderer(true, PdfSharp.Pdf.PdfFontEmbedding.Always)
-            {
-                Document = document
-            };
-            renderer.RenderDocument();
-            renderer.PdfDocument.Save(outputStream);
+            return table;
         }
-
+        
         private void DefineStyles(Document document)
         {
             document.DefaultPageSetup.RightMargin = 50;
