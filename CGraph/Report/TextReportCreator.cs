@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using CGraph.Core;
 using CGraph.Core.Algorithm;
@@ -21,7 +22,7 @@ namespace CGraph.Report
             using (var streamWriter = new StreamWriter(outputStream))
             {
                 streamWriter.WriteLine("Autorzy:");
-                streamWriter.WriteLine("");
+                streamWriter.WriteLine(string.Join(", ", AppInfo.Authors));
                 streamWriter.WriteLine();
                 streamWriter.WriteLine("Macierz incydencji:");
                 for (int i = 0; i < _graph.NumberOfVertices; ++i)
@@ -38,8 +39,14 @@ namespace CGraph.Report
                     streamWriter.WriteLine(string.Join("  ", row));
                 }
                 streamWriter.WriteLine();
-                streamWriter.WriteLine("Ciąg przeszukań (przeszukiwanie wgłąb):");
-                streamWriter.WriteLine(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
+
+                var isConnected = new DfsConnectivityChecker().IsConnected(_graph);
+                streamWriter.WriteLine("Graf jest " + (isConnected ? "spójny" : "niespójny"));
+                if (isConnected)
+                {
+                    streamWriter.WriteLine("Ciąg przeszukań (przeszukiwanie wgłąb):");
+                    streamWriter.WriteLine(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
+                }
             }
         }
     }

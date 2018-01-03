@@ -42,7 +42,7 @@ namespace CGraph.Report
             header.Format.Font.Size = 24;
             header.Format.Alignment = ParagraphAlignment.Right;
 
-            foreach (var name in new[] {""})
+            foreach (var name in AppInfo.Authors)
             {
                 var p = section.AddParagraph(name);
                 p.Format.Alignment = ParagraphAlignment.Right;
@@ -54,9 +54,18 @@ namespace CGraph.Report
             header.Format.Font.Size = 18;
             section.Add(BuildIncidencyMatrix());
 
-            header = section.AddParagraph("Przeszukiwanie:");
+            var isConnected = new DfsConnectivityChecker().IsConnected(_graph);
+
+            header = section.AddParagraph("Spójność:");
             header.Format.Font.Size = 18;
-            section.AddParagraph(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
+            section.AddParagraph("Graf jest " + (isConnected ? "spójny" : "niespójny"));
+
+            if (isConnected)
+            {
+                header = section.AddParagraph("Ciąg przeszukań (przeszukiwanie w głąb):");
+                header.Format.Font.Size = 18;
+                section.AddParagraph(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
+            }
 
             return document;
         }

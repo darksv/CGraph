@@ -95,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppInfo.cs" />
     <Compile Include="Converter\BooleanToTextConverter.cs" />
     <Compile Include="Converter\ControlPointConverter.cs" />
     <Compile Include="Core\Algorithm\DfsConnectivityChecker.cs" />
