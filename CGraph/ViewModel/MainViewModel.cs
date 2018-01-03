@@ -64,10 +64,10 @@ namespace CGraph.ViewModel
             switch (Path.GetExtension(dialog.FileName).ToLower())
             {
                 case ".pdf":
-                    reportCreator = new PdfReportCreator(_graph, new DfsAlgorithm(), _graphImageProvider);
+                    reportCreator = new PdfReportCreator(_graph, new DfsAlgorithm(), _graphImageProvider, new GreedyVertexColoringAlgorithm());
                     break;
                 default:
-                    reportCreator = new TextReportCreator(_graph, new DfsAlgorithm());
+                    reportCreator = new TextReportCreator(_graph, new DfsAlgorithm(), new GreedyVertexColoringAlgorithm());
                     break;
             }
 

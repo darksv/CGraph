@@ -10,11 +10,13 @@ namespace CGraph.Report
     {
         private readonly Graph _graph;
         private readonly ISearchAlgorithm _searchAlgorithm;
+        private readonly IVertexColoringAlgorithm _vertexColoringAlgorithm;
 
-        public TextReportCreator(Graph graph, ISearchAlgorithm searchAlgorithm)
+        public TextReportCreator(Graph graph, ISearchAlgorithm searchAlgorithm, IVertexColoringAlgorithm vertexColoringAlgorithm)
         {
             _graph = graph;
             _searchAlgorithm = searchAlgorithm;
+            _vertexColoringAlgorithm = vertexColoringAlgorithm;
         }
 
         public void Create(Stream outputStream)
@@ -42,10 +44,19 @@ namespace CGraph.Report
 
                 var isConnected = new DfsConnectivityChecker().IsConnected(_graph);
                 streamWriter.WriteLine("Graf jest " + (isConnected ? "spójny" : "niespójny"));
+                streamWriter.WriteLine();
                 if (isConnected)
                 {
                     streamWriter.WriteLine("Ciąg przeszukań (przeszukiwanie wgłąb):");
                     streamWriter.WriteLine(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
+                    streamWriter.WriteLine();
+
+                    streamWriter.WriteLine("Wynik kolorowania wierzchołków (algorytm zachłanny):");
+                    foreach (var (vertex, color) in _vertexColoringAlgorithm.Execute(_graph))
+                    {
+                        streamWriter.WriteLine($@"Wierzchołek {vertex + 1} - Kolor {color + 1}");
+                    }
+                    streamWriter.WriteLine();
                 }
             }
         }

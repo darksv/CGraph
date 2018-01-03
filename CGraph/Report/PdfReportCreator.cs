@@ -16,12 +16,14 @@ namespace CGraph.Report
         private readonly Graph _graph;
         private readonly ISearchAlgorithm _searchAlgorithm;
         private readonly IGraphImageProvider _graphImageProvider;
+        private IVertexColoringAlgorithm _vertexColoringAlgorithm;
 
-        public PdfReportCreator(Graph graph, ISearchAlgorithm searchAlgorithm, IGraphImageProvider graphImageProvider)
+        public PdfReportCreator(Graph graph, ISearchAlgorithm searchAlgorithm, IGraphImageProvider graphImageProvider, IVertexColoringAlgorithm vertexColoringAlgorithm)
         {
             _graph = graph;
             _searchAlgorithm = searchAlgorithm;
             _graphImageProvider = graphImageProvider;
+            _vertexColoringAlgorithm = vertexColoringAlgorithm;
         }
 
         public void Create(Stream outputStream)
@@ -65,6 +67,13 @@ namespace CGraph.Report
                 header = section.AddParagraph("Ciąg przeszukań (przeszukiwanie w głąb):");
                 header.Format.Font.Size = 18;
                 section.AddParagraph(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
+
+                header = section.AddParagraph("Wynik kolorowania wierzchołków (algorytm zachłanny):");
+                header.Format.Font.Size = 18;
+                foreach (var (vertex, color) in _vertexColoringAlgorithm.Execute(_graph))
+                {
+                    section.AddParagraph($@"Wierzchołek {vertex + 1} - Kolor {color + 1}");
+                }
             }
 
             return document;
