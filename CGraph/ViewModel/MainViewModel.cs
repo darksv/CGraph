@@ -46,6 +46,7 @@ namespace CGraph.ViewModel
         {
             if (_graph == null)
             {
+                MessageBox.Show("Nie wygenerowano grafu.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
