@@ -64,7 +64,7 @@ namespace CGraph.Report
 
             if (isConnected)
             {
-                header = section.AddParagraph("Ciąg przeszukań (przeszukiwanie w głąb):");
+                header = section.AddParagraph("Ciąg przeszukań (w głąb):");
                 header.Format.Font.Size = 18;
                 section.AddParagraph(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
 

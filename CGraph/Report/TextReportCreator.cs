@@ -47,7 +47,7 @@ namespace CGraph.Report
                 streamWriter.WriteLine();
                 if (isConnected)
                 {
-                    streamWriter.WriteLine("Ciąg przeszukań (przeszukiwanie wgłąb):");
+                    streamWriter.WriteLine("Ciąg przeszukań (w głąb):");
                     streamWriter.WriteLine(string.Join(", ", _searchAlgorithm.Execute(_graph, 0).Select(x => x + 1)));
                     streamWriter.WriteLine();
 
