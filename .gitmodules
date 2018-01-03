@@ -1,0 +1,3 @@
+[submodule "migra"]
+path = MigraDoc
+url = git://github.com/empira/MigraDoc.git
